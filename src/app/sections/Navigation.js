@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from '../../buttons/Button';
+import Button from '../buttons/Button';
 import PropTypes from 'prop-types';
 import './resultSection.css';
 
