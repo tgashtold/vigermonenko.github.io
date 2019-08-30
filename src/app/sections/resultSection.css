@@ -1,0 +1,35 @@
+.search-result-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-around;
+  justify-content: space-around;
+  min-width: 900px;
+  min-height: 800px;
+}
+
+.results-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.minified-gif-wrapper {
+  max-width: 230px;
+  max-height: 230px;
+  height: 230px;
+  width: 230px;
+}
+
+img.minified-gif__img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.navigation-section {
+  width: 500px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
