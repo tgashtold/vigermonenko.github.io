@@ -3,7 +3,7 @@ import ResultContent from './ResultContent';
 import Navigation from './Navigation';
 import './resultSection.css';
 
-class ResultsSection extends React.Component {
+class ResultSection extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -18,4 +18,4 @@ class ResultsSection extends React.Component {
   }
 }
 
-export default ResultsSection;
+export default ResultSection;
