@@ -2,7 +2,7 @@ import React from 'react';
 import * as sections from '../sections/index';
 import apiHandler from '../APIs/GiphyApi';
 
-const searchUrl = '/?q=';
+const searchUrl = 'search/?q=';
 const gifsLimit = 9;
 const defaultOffset = 0;
 
