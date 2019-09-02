@@ -53,8 +53,8 @@ class InfoPage extends React.Component {
   }
 
   goBackCallback() {
-    const prevLocation = this.props.location.state.from;
-    if (prevLocation) {
+    if (this.props.location.state) {
+      const prevLocation = this.props.location.state.from;
       this.props.history.push(prevLocation);
     } else {
       this.props.history.push('/');

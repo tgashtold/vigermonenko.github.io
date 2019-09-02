@@ -2,7 +2,7 @@ import React from 'react';
 import * as sections from '../sections/index';
 import apiHandler from '../APIs/GiphyApi';
 
-const searchUrl = 'search/?q=';
+const searchUrl = 'search?q=';
 const gifsLimit = 9;
 const defaultOffset = 0;
 
@@ -29,10 +29,12 @@ class HomePage extends React.Component {
   }
 
   async loadMoreGifsCallback() {
-    const result = await this.tryGetGifsByQuery(this.state.lastQuery, this.state.currentOffset + gifsLimit, gifsLimit);
+    const newOffset = this.state.currentOffset + gifsLimit;
+    const result = await this.tryGetGifsByQuery(this.state.lastQuery, newOffset, gifsLimit);
     if (result) {
       this.setState({
         cachedGifs: [...this.state.cachedGifs, ...result.data],
+        currentOffset: newOffset,
       })
     }
   }

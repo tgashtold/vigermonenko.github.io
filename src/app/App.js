@@ -14,7 +14,7 @@ class App extends React.Component {
       <MainLayout>
         <BrowserRouter>
           <Route path='/'exact  component = {pages.HomePage}></Route>
-          <Route path ='/search?q=:query' component = {pages.HomePage}></Route>
+          <Route path ='/search' component = {pages.HomePage}></Route>
           <Route path = '/gif/:gifId' component = {pages.InfoPage}></Route>
         </BrowserRouter>
       </MainLayout>
