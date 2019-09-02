@@ -1,4 +1,3 @@
-
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
@@ -7,14 +6,6 @@ module.exports = {
 
   entry: {
     main: './src/index.js',
-  },
-
-  output: {
-    path: path.resolve(__dirname, 'build'),
-    // filename: '[name].js',
-    // chunkFilename: '[name].chunk.js',
-    filename: "js/bundle.js",
-    publicPath: '/',
   },
 
   module: {
@@ -45,6 +36,16 @@ module.exports = {
         ],
       },
     ],
+  },
+
+  resolve: {
+    extensions: ['*', '.js', '.jsx'],
+  },
+
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.js',
+    publicPath: '/',
   },
 
   plugins: [
