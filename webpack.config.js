@@ -10,9 +10,10 @@ module.exports = {
   },
 
   output: {
-    path: path.resolve(__dirname, '..', 'build'),
-    filename: '[name].js',
-    chunkFilename: '[name].chunk.js',
+    path: path.resolve(__dirname, 'build'),
+    // filename: '[name].js',
+    // chunkFilename: '[name].chunk.js',
+    filename: "js/bundle.js",
     publicPath: '/',
   },
 
@@ -48,14 +49,14 @@ module.exports = {
 
   plugins: [
     new HtmlWebPackPlugin({
-      template: './src/index.html',
+      template: 'src/index.html',
       favicon: 'assets/favicon.ico',
     }),
   ],
 
   devServer: {
     port: 3000,
-    
+    historyApiFallback: true,
   },
 
 };
