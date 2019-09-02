@@ -23,7 +23,7 @@ button.search__button {
   background: none;
   padding: 0px;
   background-size: 40px 40px;
-  background-image: url(./searchButton.png);
+  background-image: url(../assets/search.png);
 }
 
 input.search__input {

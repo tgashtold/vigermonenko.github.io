@@ -15,3 +15,11 @@
   border-bottom-width: 2px;
   cursor: pointer;
 }
+
+a {
+  text-decoration: none;
+}
+
+a:visited {
+  text-decoration: none;
+}
