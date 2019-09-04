@@ -29,14 +29,7 @@ const InfoSection = ({
   </section>
 );
 
-InfoSection.defaultProps = {
-  avatarUrl: '',
-  author: 'unknown',
-};
-
 InfoSection.propTypes = {
-  avatarUrl: PropTypes.string,
-  author: PropTypes.string,
   gifOriginalUrl: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   uploadDatetime: PropTypes.string.isRequired,

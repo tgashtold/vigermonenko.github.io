@@ -1,5 +1,5 @@
-/* eslint-disable jsx-a11y/control-has-associated-label */
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import '../styles/searchSection.css';
@@ -10,26 +10,24 @@ const SearchSection = class extends React.Component {
   constructor(props) {
     super(props);
 
+    this.onChange = this.onChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
     this.state = { text: props.text };
   }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps !== this.props) {
-      this.setState({
-        text: this.props.text,
-      });
-    }
-  }
-
-  handleInputEvent(event) {
-    this.setState({ text: event.target.value });
+  componentDidMount() {
+    const { text } = this.props;
+    this.setState({ text });
   }
 
   onSubmit(event) {
-    event.preventDefault();
-    const { handleSubmit } = this.props;
     const { text } = this.state;
-    handleSubmit(text);
+    event.preventDefault();
+    this.props.history.push(`/search?q=${text}`);
+  }
+
+  onChange(event) {
+    this.setState({ text: event.target.value });
   }
 
   render() {
@@ -39,19 +37,20 @@ const SearchSection = class extends React.Component {
       <section className="search">
         <form
           className="search__form"
-          onSubmit={(event) => this.onSubmit(event)}
+          onSubmit={this.onSubmit}
         >
           <input
             className="search__input"
             type="text"
-            onChange={(event) => this.handleInputEvent(event)}
+            onChange={this.onChange}
             placeholder={placeholderText}
             value={text}
           />
           <button
             type="button"
             className="search__button"
-            onClick={(event) => this.onSubmit(event)}
+            onClick={this.onSubmit}
+            aria-label="search"
           />
         </form>
       </section>
@@ -65,7 +64,6 @@ SearchSection.defaultProps = {
 
 SearchSection.propTypes = {
   text: PropTypes.string,
-  handleSubmit: PropTypes.func.isRequired,
 };
 
-export default SearchSection;
+export default withRouter(SearchSection);

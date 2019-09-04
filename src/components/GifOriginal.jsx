@@ -10,23 +10,26 @@ const GifOriginal = ({
   title,
   uploadDatetime,
 }) => (
-  <div className="gif-info">
-    <div>
-      <img className="gif-original__img" src={gifOriginalUrl} alt={title} />
+    <div className="gif-info">
+      <div>
+        <img className="gif-original__img" src={gifOriginalUrl} alt={title} />
+      </div>
+      <ul>
+        <li>
+          Title: <span>{title}</span>
+        </li>
+        <li>
+          Upload datetime: <span>{uploadDatetime}</span>
+        </li>
+        <li>
+          Author: <span>{author}</span>
+          <img
+            src={avatarUrl}
+            alt="no avatar provided"
+          />
+        </li>
+      </ul>
     </div>
-    <ul>
-      <li>
-        Title: <span>{title}</span>
-      </li>
-      <li>
-        Upload datetime: <span>{uploadDatetime}</span>
-      </li>
-      <li>
-        Author: <span>{author}</span>
-        <img src={avatarUrl} alt="" />
-      </li>
-    </ul>
-  </div>
 );
 
 GifOriginal.defaultProps = {

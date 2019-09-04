@@ -8,7 +8,7 @@ const Button = ({ buttonName, onClick }) => (
     role="button"
     tabIndex={0}
     onClick={onClick}
-    onKeyPress={() => { }}
+    onKeyUp={onClick}
     className="button button_hover"
   >
     {buttonName}

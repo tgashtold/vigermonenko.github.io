@@ -7,7 +7,7 @@ import '../styles/layouts.css';
 const MainLayout = ({ children }) => (
   <div className="site-wrapper">
     <div className="background-wrapper">
-      <img className="background__img" src={backgroundImage} alt="" />
+      <img className="background__img" src={backgroundImage} alt="here should be a layout" />
     </div>
     <div className="sections">
       {children}

@@ -1,36 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 
-import MinifiedGif from './MinifiedGif';
+import LinkedGif from './LinkedGif';
 
 import '../styles/resultSection.css';
 
-const ResultContent = ({ gifs, from }) => {
-  function convertGifsToComponents() {
-    const components = [];
-    gifs.forEach((gif) => {
-      components.push(
-        <Link
-          to={{ pathname: `/gif/${gif.id}`, state: { from } }}
-          key={gif.id}
-        >
-          <MinifiedGif
-            id={gif.id}
-            url={gif.images.original.url}
-          />
-        </Link>,
-      );
-    });
-    return components;
-  }
 
-  return (
-    <section className="search-result-content">
-      {convertGifsToComponents()}
-    </section>
-  );
-};
+const ResultContent = ({ gifs, from }) => (
+  <section className="search-result-content">
+    {
+      gifs.map((gif) => (
+        <LinkedGif
+          key={gif.id}
+          toGif={`/gif/${gif.id}`}
+          from={from}
+          gifUrl={gif.images.original.url}
+        />
+      ))
+  }
+  </section>
+);
 
 ResultContent.defaultTypes = {
   gifs: [],
@@ -38,7 +27,6 @@ ResultContent.defaultTypes = {
 };
 
 ResultContent.propTypes = {
-  from: PropTypes.string,
   gifs: PropTypes.array,
 };
 
