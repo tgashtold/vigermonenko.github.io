@@ -10,8 +10,6 @@ const SearchSection = class extends React.Component {
   constructor(props) {
     super(props);
 
-    this.onChange = this.onChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
     this.state = { text: props.text };
   }
 
@@ -20,13 +18,13 @@ const SearchSection = class extends React.Component {
     this.setState({ text });
   }
 
-  onSubmit(event) {
+  onSubmit = (event) => {
     const { text } = this.state;
     event.preventDefault();
     this.props.history.push(`/search?q=${text}&count=9`);
   }
 
-  onChange(event) {
+  onChange = (event) => {
     this.setState({ text: event.target.value });
   }
 
