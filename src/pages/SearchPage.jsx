@@ -11,7 +11,6 @@ class SearchPage extends React.Component {
     super(props);
 
     this.state = {
-      search: '',
       cachedGifs: [],
       currentOffset: 0,
     };
@@ -36,7 +35,6 @@ class SearchPage extends React.Component {
     if (result) {
       this.setState({
         cachedGifs: [...result.data],
-        search: query,
         currentOffset: count,
       });
     }
