@@ -1,9 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import GifOriginal from './GifOriginal';
-import Button from './Button';
+import LinkedButton from './LinkedButton';
 
 import '../styles/infoSection.css';
 
@@ -23,9 +22,10 @@ const InfoSection = ({
       title={title}
       uploadDatetime={uploadDatetime}
     />
-    <Link to={prevPath}>
-      <Button buttonName="Back" />
-    </Link>
+    <LinkedButton
+      buttonName="Back"
+      linkTo={prevPath}
+    />
   </section>
 );
 

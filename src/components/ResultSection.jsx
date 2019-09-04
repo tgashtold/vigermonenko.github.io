@@ -25,7 +25,6 @@ ResultSection.defaultProps = {
 
 ResultSection.propTypes = {
   gifs: PropTypes.array,
-  from: PropTypes.string,
 };
 
 export default ResultSection;
