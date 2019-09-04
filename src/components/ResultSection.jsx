@@ -8,13 +8,13 @@ import '../styles/resultSection.css';
 
 
 const ResultSection = ({
-  loadMore,
+  toLoadMore,
   gifs,
   from,
 }) => (
   <section className="results-section">
     <ResultContent from={from} gifs={gifs} />
-    <Navigation loadMore={loadMore} />
+    <Navigation toLoadMore={toLoadMore} />
   </section>
 );
 
@@ -26,7 +26,6 @@ ResultSection.defaultProps = {
 ResultSection.propTypes = {
   gifs: PropTypes.array,
   from: PropTypes.string,
-  loadMore: PropTypes.func.isRequired,
 };
 
 export default ResultSection;

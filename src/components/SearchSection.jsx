@@ -23,7 +23,7 @@ const SearchSection = class extends React.Component {
   onSubmit(event) {
     const { text } = this.state;
     event.preventDefault();
-    this.props.history.push(`/search?q=${text}`);
+    this.props.history.push(`/search?q=${text}&count=9`);
   }
 
   onChange(event) {

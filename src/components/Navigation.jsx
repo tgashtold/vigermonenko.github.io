@@ -6,9 +6,11 @@ import Button from './Button';
 
 import '../styles/resultSection.css';
 
-const Navigation = ({ loadMore }) => (
+const Navigation = ({ toLoadMore }) => (
   <nav className="navigation-section">
-    <Button onClick={loadMore} buttonName="More" />
+    <Link to={toLoadMore} replace>
+      <Button buttonName="More" />
+    </Link>
     <Link to="/">
       <Button buttonName="Home" />
     </Link>
@@ -16,7 +18,7 @@ const Navigation = ({ loadMore }) => (
 );
 
 Navigation.propTypes = {
-  loadMore: PropTypes.func.isRequired,
+  toLoadMore: PropTypes.string.isRequired,
 };
 
 export default Navigation;
