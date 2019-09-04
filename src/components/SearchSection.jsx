@@ -6,7 +6,7 @@ import '../styles/searchSection.css';
 
 const placeholderText = 'Type here to search all the gifs...';
 
-const SearchSection = class extends React.Component {
+class SearchSection extends React.Component {
   constructor(props) {
     super(props);
 
@@ -19,9 +19,14 @@ const SearchSection = class extends React.Component {
   }
 
   onSubmit = (event) => {
-    const { text } = this.state;
     event.preventDefault();
-    this.props.history.push(`/search?q=${text}&count=9`);
+
+    const { text } = this.state;
+    const searchParameters = new URLSearchParams('');
+    searchParameters.append('q', text);
+    searchParameters.append('count', '9');
+
+    this.props.history.push('/search?' + searchParameters.toString());
   }
 
   onChange = (event) => {
@@ -54,7 +59,7 @@ const SearchSection = class extends React.Component {
       </section>
     );
   }
-};
+}
 
 SearchSection.defaultProps = {
   text: '',

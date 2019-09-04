@@ -4,9 +4,14 @@ import { Link } from 'react-router-dom';
 
 import MinifiedGif from './MinifiedGif';
 
-const LinkedGif = ({ from, toGif, gifUrl }) => (
+const LinkedGif = ({
+  gifUrl,
+  title,
+  toGif,
+  from,  
+}) => (
   <Link to={{ pathname: toGif, state: { from } }}>
-    <MinifiedGif url={gifUrl} />
+    <MinifiedGif title={title} url={gifUrl} />
   </Link>
 );
 

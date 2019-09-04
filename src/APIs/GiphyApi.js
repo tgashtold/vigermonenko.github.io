@@ -20,7 +20,7 @@ class GiphyApi {
       limit,
     };
 
-    const response = await fetch (
+    const response = await fetch(
       siteUrl + defaultPath + GiphyApi.formUrl('search', config),
       this.HttpsGetRequestSettings,
     );
@@ -36,7 +36,7 @@ class GiphyApi {
       api_key: this.apiKey,
     };
 
-    const response = await fetch (
+    const response = await fetch(
       siteUrl + defaultPath + GiphyApi.formUrl(gifId, config),
       this.HttpsGetRequestSettings,
     );

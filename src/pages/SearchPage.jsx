@@ -6,7 +6,7 @@ import ResultSection from '../components/ResultSection';
 
 const gifsLimit = 9;
 
-const SearchPage = class extends React.Component {
+class SearchPage extends React.Component {
   constructor(props) {
     super(props);
 
@@ -58,6 +58,6 @@ const SearchPage = class extends React.Component {
       </>
     );
   }
-};
+}
 
 export default SearchPage;

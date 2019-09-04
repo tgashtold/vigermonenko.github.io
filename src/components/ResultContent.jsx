@@ -15,6 +15,7 @@ const ResultContent = ({ gifs, from }) => (
           toGif={`/gif/${gif.id}`}
           from={from}
           gifUrl={gif.images.original.url}
+          title={gif.title}
         />
       ))
   }
@@ -27,7 +28,7 @@ ResultContent.defaultTypes = {
 };
 
 ResultContent.propTypes = {
-  gifs: PropTypes.array,
+  gifs: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default ResultContent;

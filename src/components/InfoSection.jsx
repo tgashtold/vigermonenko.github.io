@@ -10,7 +10,7 @@ const InfoSection = ({
   avatarUrl,
   author,
   gifOriginalUrl,
-  prevPath,
+  previousPath,
   title,
   uploadDatetime,
 }) => (
@@ -24,7 +24,7 @@ const InfoSection = ({
     />
     <LinkedButton
       buttonName="Back"
-      linkTo={prevPath}
+      linkTo={previousPath}
     />
   </section>
 );
@@ -33,7 +33,7 @@ InfoSection.propTypes = {
   gifOriginalUrl: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   uploadDatetime: PropTypes.string.isRequired,
-  prevPath: PropTypes.string.isRequired,
+  previousPath: PropTypes.string.isRequired,
 };
 
 export default InfoSection;
