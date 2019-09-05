@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -8,7 +9,7 @@ const LinkedGif = ({
   gifUrl,
   title,
   toGif,
-  from,  
+  from,
 }) => (
   <Link to={{ pathname: toGif, state: { from } }}>
     <MinifiedGif title={title} url={gifUrl} />

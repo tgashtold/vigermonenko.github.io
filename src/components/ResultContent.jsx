@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -22,13 +23,8 @@ const ResultContent = ({ gifs, from }) => (
   </section>
 );
 
-ResultContent.defaultTypes = {
-  gifs: [],
-  from: '/',
-};
-
 ResultContent.propTypes = {
-  gifs: PropTypes.arrayOf(PropTypes.object),
+  gifs: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default ResultContent;

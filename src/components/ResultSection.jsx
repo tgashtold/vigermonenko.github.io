@@ -1,5 +1,5 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import ResultContent from './ResultContent';
 import Navigation from './Navigation';
@@ -17,14 +17,5 @@ const ResultSection = ({
     <Navigation toLoadMore={toLoadMore} />
   </section>
 );
-
-ResultSection.defaultProps = {
-  gifs: [],
-  from: '/',
-};
-
-ResultSection.propTypes = {
-  gifs: PropTypes.array,
-};
 
 export default ResultSection;

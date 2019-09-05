@@ -10,32 +10,36 @@ class SearchSection extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { text: props.text };
+    this.inputFieldRef = React.createRef();
   }
 
   componentDidMount() {
-    const { text } = this.props;
-    this.setState({ text });
+    this.initInputFieldValue();
+  }
+
+  componentDidUpdate() {
+    this.initInputFieldValue();
   }
 
   onSubmit = (event) => {
     event.preventDefault();
 
-    const { text } = this.state;
+    const text = this.inputFieldRef.current.value;
     const searchParameters = new URLSearchParams('');
-    searchParameters.append('q', text);
+    searchParameters.append('query', text);
     searchParameters.append('count', '9');
 
-    this.props.history.push('/search?' + searchParameters.toString());
+    const { history } = this.props;
+    history.push(`/search?${searchParameters.toString()}`);
   }
 
-  onChange = (event) => {
-    this.setState({ text: event.target.value });
+  initInputFieldValue = () => {
+    const searchParameters = new URLSearchParams(window.location.search);
+    const query = searchParameters.get('query');
+    this.inputFieldRef.current.value = query;
   }
 
   render() {
-    const { text } = this.state;
-
     return (
       <section className="search">
         <form
@@ -43,11 +47,11 @@ class SearchSection extends React.Component {
           onSubmit={this.onSubmit}
         >
           <input
+            ref={this.inputFieldRef}
             className="search__input"
             type="text"
             onChange={this.onChange}
             placeholder={placeholderText}
-            value={text}
           />
           <button
             type="button"
@@ -61,12 +65,10 @@ class SearchSection extends React.Component {
   }
 }
 
-SearchSection.defaultProps = {
-  text: '',
-};
-
 SearchSection.propTypes = {
-  text: PropTypes.string,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default withRouter(SearchSection);

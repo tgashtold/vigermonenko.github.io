@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -6,22 +7,9 @@ import LinkedButton from './LinkedButton';
 
 import '../styles/infoSection.css';
 
-const InfoSection = ({
-  avatarUrl,
-  author,
-  gifOriginalUrl,
-  previousPath,
-  title,
-  uploadDatetime,
-}) => (
+const InfoSection = ({ gif, previousPath }) => (
   <section className="info-section">
-    <GifOriginal
-      gifOriginalUrl={gifOriginalUrl}
-      avatarUrl={avatarUrl}
-      author={author}
-      title={title}
-      uploadDatetime={uploadDatetime}
-    />
+    <GifOriginal gif={gif} />
     <LinkedButton
       buttonName="Back"
       linkTo={previousPath}
@@ -30,9 +18,6 @@ const InfoSection = ({
 );
 
 InfoSection.propTypes = {
-  gifOriginalUrl: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  uploadDatetime: PropTypes.string.isRequired,
   previousPath: PropTypes.string.isRequired,
 };
 
