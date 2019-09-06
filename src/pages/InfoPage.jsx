@@ -5,23 +5,33 @@ import { connect } from 'react-redux';
 import apiHandler from '../APIs/GiphyApi';
 
 import InfoSection from '../components/InfoSection';
-import { displayGifInfo, discardGif } from '../container/actions';
+import { 
+  requestGifById,
+  requestGifByIdSucceeded,
+  requestGifByIdFailed,
+  discardGif,
+} from '../container/actions';
 
 
 class InfoPage extends React.Component {
   async componentDidMount() {
-    const gifId = window.location.pathname.slice('/gif/'.length);
-    const result = await apiHandler.getGifById(gifId);
-    const { updateGif } = this.props;
+    const { requestGif, updateGif, raiseError } = this.props;
 
+    const gifId = window.location.pathname.slice('/gif/'.length);
+    requestGif(gifId);
+
+    const result = await apiHandler.getGifById(gifId);
     if (result) {
       updateGif({
-        originalImageUrl: result.data.images.original.url,
+        id: result.data.id,
+        imageUrl: result.data.images.original.url,
         title: result.data.title,
         uploadDatetime: result.data.import_datetime,
         author: result.data.username || 'unknown',
         authorAvatarUrl: result.data.user ? result.data.user.avatar : '',
       });
+    } else {
+      raiseError();
     }
   }
 
@@ -46,11 +56,13 @@ class InfoPage extends React.Component {
 }
 
 const mapState = (state) => ({
-  gif: state.infoSectionGif,
+  gif: state.gifOriginal,
 });
 
 const mapDispatch = (dispatch) => ({
-  updateGif: (gif) => dispatch(displayGifInfo(gif)),
+  requestGif: (id) => dispatch(requestGifById(id)),
+  updateGif: (gif) => dispatch(requestGifByIdSucceeded(gif)),
+  raiseError: () => dispatch(requestGifByIdFailed()),
   unmountGif: () => dispatch(discardGif()),
 });
 

@@ -1,23 +1,78 @@
-export const CACHE_GIFS = 'CACHE_GIFS';
-export const DISPLAY_GIF_INFO = 'DISPLAY_GIF_INFO';
+export const REQUEST_GIFS_BY_QUERY = 'REQUEST_GIFS_BY_QUERY';
+export const REQUEST_GIFS_BY_QUERY_SUCCEEDED = 'REQUEST_GIFS_BY_QUERY_SUCCEEDED';
+export const REQUEST_GIFS_BY_QUERY_FAILED = 'REQUEST_GIFS_BY_QUERY_FAILED';
+export const REQUEST_GIF_BY_ID = 'REQUEST_GIF_BY_ID';
+export const REQUEST_GIF_BY_ID_SUCCEEDED = 'REQUEST_GIF_BY_ID_SUCCEEDED';
+export const REQUEST_GIF_BY_ID_FAILED = 'REQUEST_GIF_BY_ID_FAILED';
 export const DISCARD_GIF = 'DISCARD_GIF';
 
-export function cacheGifs(gifs, count, query) {
+export function requestGifsByQuery(count, query) {
   return {
-    type: CACHE_GIFS,
+    type: REQUEST_GIFS_BY_QUERY,
     payload: {
       gifsCount: count,
-      searchSectionGifs: gifs,
       query,
     },
   };
 }
 
-export function displayGifInfo(gif) {
+export function requestGifsByQuerySucceeded(gifs) {
   return {
-    type: DISPLAY_GIF_INFO,
+    type: REQUEST_GIFS_BY_QUERY_SUCCEEDED,
     payload: {
-      infoSectionGif: gif,
+      minifiedGifs: gifs,
+      error: {
+        occur: false,
+        message: '',
+      },
+    },
+  };
+}
+
+export function requestGifsByQueryFailed() {
+  return {
+    type: REQUEST_GIFS_BY_QUERY_FAILED,
+    payload: {
+      error: {
+        occur: true,
+        message: 'Failed to load gifs by query!', 
+      },
+    },
+  };
+}
+
+export function requestGifById(id) {
+  return {
+    type: REQUEST_GIF_BY_ID,
+    payload: {
+      gifOriginal: {
+        id,
+      } ,
+    }
+  };
+}
+
+export function requestGifByIdSucceeded(gif) {
+  return {
+    type: REQUEST_GIF_BY_ID_SUCCEEDED,
+    payload: {
+      gifOriginal: gif,
+      error: {
+        occur: false,
+        message: '',
+      },
+    },
+  };
+}
+
+export function requestGifByIdFailed() {
+  return {
+    type: REQUEST_GIF_BY_ID_FAILED,
+    payload: {
+      error: {
+        occur: true,
+        message: 'Failed to load gif by ID!',
+      },
     },
   };
 }

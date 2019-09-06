@@ -7,7 +7,7 @@ import '../styles/infoSection.css';
 const GifOriginal = ({ gif }) => (
   <div className="gif-info">
     <div>
-      <img className="gif-original__img" src={gif.originalImageUrl} alt={gif.title} />
+      <img className="gif-original__img" src={gif.imageUrl} alt={gif.title} />
     </div>
     <ul>
       <li>
@@ -29,7 +29,8 @@ const GifOriginal = ({ gif }) => (
 
 GifOriginal.propTypes = {
   gif: PropTypes.shape({
-    originalImageUrl: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+    imageUrl: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     uploadDatetime: PropTypes.string.isRequired,
     author: PropTypes.string.isRequired,
