@@ -2,14 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import apiHandler from '../APIs/GiphyApi';
 import SearchSection from '../components/SearchSection';
 import ResultSection from '../components/ResultSection';
-import { 
-  requestGifsByQuery,
-  requestGifsByQuerySucceeded,
-  requestGifsByQueryFailed,
-} from '../container/actions';
+import { fetchGifs } from '../container/actions';
 
 const gifsLimit = 9;
 
@@ -25,15 +20,12 @@ class SearchPage extends React.Component {
   }
 
   async onRouteChange() {
-    const { requestGifs, updateGifs, raiseError } = this.props;
+    const { requestGifs } = this.props;
     const urlParam = new URLSearchParams(window.location.search);
 
     const query = urlParam.get('query');
     const count = parseInt(urlParam.get('count'), 10);
-
     requestGifs(count, query);
-    const result = await apiHandler.getGifsByQuery(query, 0, count);
-    result ? updateGifs(result.data) : raiseError();
   }
 
   render() {
@@ -54,12 +46,12 @@ class SearchPage extends React.Component {
   }
 }
 
+
 SearchPage.propTypes = {
   gifs: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
   })).isRequired,
-  updateGifs: PropTypes.func.isRequired,
   count: PropTypes.number.isRequired,
 };
 
@@ -69,9 +61,7 @@ const mapState = (state) => ({
 });
 
 const mapDispatch = (dispatch) => ({
-  requestGifs: (count, query) => dispatch(requestGifsByQuery(count, query)),
-  updateGifs: (gifs) => dispatch(requestGifsByQuerySucceeded(gifs)),
-  raiseError: () => dispatch(requestGifsByQueryFailed()),
+  requestGifs: (count, query) => dispatch(fetchGifs(count, query)),
 });
 
 export default connect(mapState, mapDispatch)(SearchPage);

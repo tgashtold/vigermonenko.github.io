@@ -1,3 +1,5 @@
+export const FETCH_GIFS = 'FETCH_GIFS';
+export const FETCH_GIF = 'FETCH_GIF';
 export const REQUEST_GIFS_BY_QUERY = 'REQUEST_GIFS_BY_QUERY';
 export const REQUEST_GIFS_BY_QUERY_SUCCEEDED = 'REQUEST_GIFS_BY_QUERY_SUCCEEDED';
 export const REQUEST_GIFS_BY_QUERY_FAILED = 'REQUEST_GIFS_BY_QUERY_FAILED';
@@ -5,6 +7,25 @@ export const REQUEST_GIF_BY_ID = 'REQUEST_GIF_BY_ID';
 export const REQUEST_GIF_BY_ID_SUCCEEDED = 'REQUEST_GIF_BY_ID_SUCCEEDED';
 export const REQUEST_GIF_BY_ID_FAILED = 'REQUEST_GIF_BY_ID_FAILED';
 export const DISCARD_GIF = 'DISCARD_GIF';
+
+export function fetchGifs(count, query) {
+  return {
+    type: FETCH_GIFS,
+    payload: {
+      gifsCount: count,
+      query,
+    }
+  };
+}
+
+export function fetchGif(id) {
+  return {
+    type: FETCH_GIF,
+    payload: {
+      id,
+    }
+  };
+}
 
 export function requestGifsByQuery(count, query) {
   return {
