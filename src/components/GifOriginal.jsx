@@ -4,28 +4,38 @@ import PropTypes from 'prop-types';
 
 import '../styles/infoSection.css';
 
-const GifOriginal = ({ gif }) => (
-  <div className="gif-info">
-    <div>
-      <img className="gif-original__img" src={gif.imageUrl} alt={gif.title} />
+const GifOriginal = ({ gif }) => {
+  const avatarImageRef = React.createRef();
+
+  const onFailedToLoadAvatar = () => {
+    avatarImageRef.current.style.display = 'none';
+  };
+
+  return (
+    <div className="gif-info">
+      <div>
+        <img className="gif-original__img" src={gif.imageUrl} alt={gif.title} />
+      </div>
+      <ul>
+        <li>
+          Title: <span>{gif.title}</span>
+        </li>
+        <li>
+          Upload datetime: <span>{gif.uploadDatetime}</span>
+        </li>
+        <li>
+          Author: <span>{gif.author}</span> &nbsp;
+        <img className="avatar"
+            src={gif.authorAvatarUrl}
+            alt="Author's avatar"
+            ref={avatarImageRef}
+            onError={onFailedToLoadAvatar}
+          />
+        </li>
+      </ul>
     </div>
-    <ul>
-      <li>
-        Title: <span>{gif.title}</span>
-      </li>
-      <li>
-        Upload datetime: <span>{gif.uploadDatetime}</span>
-      </li>
-      <li>
-        Author: <span>{gif.author}</span>
-        <img
-          src={gif.authorAvatarUrl}
-          alt="no avatar provided"
-        />
-      </li>
-    </ul>
-  </div>
-);
+  );
+};
 
 GifOriginal.propTypes = {
   gif: PropTypes.shape({
