@@ -1,12 +1,5 @@
-import {
-  REQUEST_GIFS_BY_QUERY,
-  REQUEST_GIFS_BY_QUERY_SUCCEEDED,
-  REQUEST_GIFS_BY_QUERY_FAILED,
-  REQUEST_GIF_BY_ID,
-  REQUEST_GIF_BY_ID_SUCCEEDED,
-  REQUEST_GIF_BY_ID_FAILED,
-  DISCARD_GIF,
-} from './actions';
+import { combineReducers } from 'redux';
+import { createActions, handleActions } from 'redux-actions';
 
 const defaultGifOriginal = {
   id: '',
@@ -17,36 +10,92 @@ const defaultGifOriginal = {
   authorAvatarUrl: '',
 };
 
-const initialState = {
-  error : {
+const defaultErrorState = {
+  error: {
     occur: false,
-    message: '', 
+    message: '',
   },
-  minifiedGifs: [],
-  query: '',
-  gifsCount: 0,
-  gifOriginal: defaultGifOriginal,
 };
 
-function giphyAppReducer(state = initialState, action) {
-  switch (action.type) {
-    case REQUEST_GIFS_BY_QUERY:
-      return { ...state, ...action.payload };
-    case REQUEST_GIFS_BY_QUERY_SUCCEEDED:
-      return { ...state, ...action.payload };
-    case REQUEST_GIFS_BY_QUERY_FAILED: 
-      return { ...state, ...action.payload };
-    case REQUEST_GIF_BY_ID:
-      return { ...state, ...action.payload };
-    case REQUEST_GIF_BY_ID_FAILED:
-      return { ...state, ...action.payload };
-    case REQUEST_GIF_BY_ID_SUCCEEDED:
-      return { ...state, ...action.payload };
-    case DISCARD_GIF:
-      return { ...state, gifOriginal: defaultGifOriginal };
-    default:
-      return state;
-  }
-}
+const defaultSearchPageState = {
+  gifs: [],
+  query: '',
+  count: 0,
+};
 
-export default giphyAppReducer;
+const defaultInfoPageState = {
+  gifOriginal: { ...defaultGifOriginal },
+};
+
+
+const infoPageReducer = handleActions(
+  {
+    FETCH_GIF: (state, action) => (
+      { ...state, gifOriginal: { id: action.payload.id } }
+    ),
+    REQUEST_GIF_BY_ID: (state, action) => (
+      { ...state, gifOriginal: { id: action.payload.id } }
+    ),
+    REQUEST_GIF_BY_ID_SUCCEEDED: (state, action) => (
+      { ...state, gifOriginal: { ...action.payload.gifOriginal }, error: defaultErrorState }
+    ),
+    REQUEST_GIF_BY_ID_FAILED: (state) => (
+      { ...state, error: { occur: true, message: 'Failed to get gifs by id!' } }
+    ),
+    DISCARD_GIF: (state) => (
+      { ...state, gifOriginal: { ...defaultGifOriginal } }
+    ),
+  },
+  defaultInfoPageState,
+);
+
+
+const searchPageReducer = handleActions(
+  {
+    FETCH_GIFS: (state, action) => (
+      { ...state, ...action.payload }
+    ),
+    REQUEST_GIFS_BY_QUERY: (state, action) => (
+      { ...state, ...action.payload }
+    ),
+    REQUEST_GIFS_BY_QUERY_SUCCEEDED: (state, action) => (
+      { ...state, gifs: [...action.payload.gifs] }
+    ),
+    REQUEST_GIFS_BY_QUERY_FAILED: (state) => (
+      { ...state, error: { occur: true, message: 'Failed to get gifs by query!' } }
+    ),
+  },
+  defaultSearchPageState,
+);
+
+
+export const rootReducer = combineReducers({
+  searchPageReducer,
+  infoPageReducer,
+});
+
+
+export const {
+  fetchGif,
+  fetchGifs,
+
+  requestGifsByQuery,
+  requestGifsByQuerySucceeded,
+  requestGifById,
+  requestGifByIdSucceeded,
+
+  discardGif,
+  requestGifsByQueryFailed,
+  requestGifByIdFailed,
+} = createActions({
+  FETCH_GIF: (id) => ({ id }),
+  FETCH_GIFS: (count, query) => ({ count, query }),
+
+  REQUEST_GIFS_BY_QUERY: (count, query) => ({ count, query }),
+  REQUEST_GIFS_BY_QUERY_SUCCEEDED: (gifs) => ({ gifs }),
+  REQUEST_GIF_BY_ID: (id) => ({ id }),
+  REQUEST_GIF_BY_ID_SUCCEEDED: (gifOriginal) => ({ gifOriginal }),
+},
+'DISCARD_GIF',
+'REQUEST_GIFS_BY_QUERY_FAILED',
+'REQUEST_GIF_BY_ID_FAILED');

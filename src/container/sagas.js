@@ -1,6 +1,6 @@
 import { put, takeEvery, all } from 'redux-saga/effects';
 
-import apiHandler from '../APIs/GiphyApi';
+import apiHandler from '../services/GiphyApi';
 import {
   requestGifsByQuery,
   requestGifsByQuerySucceeded,
@@ -8,15 +8,13 @@ import {
   requestGifById,
   requestGifByIdSucceeded,
   requestGifByIdFailed,
-  FETCH_GIFS,
-  FETCH_GIF,
-} from './actions';
+} from './reducer';
 
 
 function* getGifsByQueryAsync({ payload }) {
   try {
-    yield put(requestGifsByQuery(payload.gifsCount, payload.query));
-    const result = yield apiHandler.getGifsByQuery(payload.query, 0, payload.gifsCount);
+    yield put(requestGifsByQuery(payload.count, payload.query));
+    const result = yield apiHandler.getGifsByQuery(payload.query, 0, payload.count);
     yield put(requestGifsByQuerySucceeded(result.data));
   } catch (error) {
     yield put(requestGifsByQueryFailed());
@@ -36,17 +34,17 @@ function* getGifByIdAsync({ payload }) {
       author: result.data.username || 'unknown',
       authorAvatarUrl: result.data.user ? result.data.user.avatar_url : '',
     }));
-  } catch(error) {
+  } catch (error) {
     yield put(requestGifByIdFailed());
   }
 }
 
 function* watchGetGifsByQueryAsync() {
-  yield takeEvery(FETCH_GIFS, getGifsByQueryAsync);
+  yield takeEvery('FETCH_GIFS', getGifsByQueryAsync);
 }
 
 function* watchGetGifByIdAsync() {
-  yield takeEvery(FETCH_GIF, getGifByIdAsync);
+  yield takeEvery('FETCH_GIF', getGifByIdAsync);
 }
 
 export default function* rootSaga() {

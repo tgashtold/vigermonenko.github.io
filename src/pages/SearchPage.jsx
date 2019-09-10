@@ -5,7 +5,7 @@ import UriFormatter from 'query-string';
 
 import SearchSection from '../components/SearchSection';
 import ResultSection from '../components/ResultSection';
-import { fetchGifs } from '../container/actions';
+import { fetchGifs } from '../container/reducer';
 
 const gifsLimit = 9;
 
@@ -65,13 +65,13 @@ SearchPage.propTypes = {
     search: PropTypes.string,
     state: PropTypes.shape({
       from: PropTypes.string,
-    }).isRequired,
+    }),
   }).isRequired,
 };
 
-const mapState = (state) => ({
-  gifs: state.minifiedGifs,
-  count: state.gifsCount,
+const mapState = ({ searchPageReducer }) => ({
+  gifs: [...searchPageReducer.gifs],
+  count: searchPageReducer.count,
 });
 
 const mapDispatch = (dispatch) => ({

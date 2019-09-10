@@ -6,7 +6,7 @@ import InfoSection from '../components/InfoSection';
 import {
   fetchGif,
   discardGif,
-} from '../container/actions';
+} from '../container/reducer';
 
 
 class InfoPage extends React.Component {
@@ -56,8 +56,8 @@ InfoPage.propTypes = {
   }).isRequired,
 };
 
-const mapState = (state) => ({
-  gif: state.gifOriginal,
+const mapState = ({ infoPageReducer }) => ({
+  gif: infoPageReducer.gifOriginal,
 });
 
 const mapDispatch = (dispatch) => ({
