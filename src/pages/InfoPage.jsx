@@ -11,8 +11,8 @@ import {
 
 class InfoPage extends React.Component {
   async componentDidMount() {
-    const { fetch } = this.props;
-    const gifId = window.location.pathname.slice('/gif/'.length);
+    const { fetch, pathname } = this.props;
+    const gifId = pathname.slice('/gif/'.length);
     fetch(gifId);
   }
 
@@ -49,15 +49,19 @@ InfoPage.propTypes = {
     authorAvatarUrl: PropTypes.string.isRequired,
   }).isRequired,
 
+  pathname: PropTypes.string.isRequired,
   location: PropTypes.shape({
     state: PropTypes.shape({
       from: PropTypes.string,
-    }).isRequired,
+    }),
   }).isRequired,
 };
 
-const mapState = ({ infoPageReducer }) => ({
-  gif: infoPageReducer.gifOriginal,
+const mapState = ({ rootReducer, router }) => ({
+  gif: rootReducer.infoPageReducer.gifOriginal,
+
+  location: router.location,
+  pathname: router.location.pathname,
 });
 
 const mapDispatch = (dispatch) => ({

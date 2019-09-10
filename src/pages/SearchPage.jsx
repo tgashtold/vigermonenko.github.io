@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import UriFormatter from 'query-string';
 
 import SearchSection from '../components/SearchSection';
 import ResultSection from '../components/ResultSection';
 import { fetchGifs } from '../container/reducer';
+
 
 const gifsLimit = 9;
 
@@ -15,14 +15,15 @@ class SearchPage extends React.Component {
   }
 
   async componentDidUpdate(prevProps) {
-    if (prevProps.location.search !== window.location.search) {
+    const { search } = this.props;
+    if (prevProps.search !== search) {
       this.onRouteChange();
     }
   }
 
   async onRouteChange() {
-    const { fetch } = this.props;
-    const urlParam = new URLSearchParams(window.location.search);
+    const { fetch, search } = this.props;
+    const urlParam = new URLSearchParams(search);
 
     const query = urlParam.get('query');
     const count = parseInt(urlParam.get('count'), 10);
@@ -30,20 +31,19 @@ class SearchPage extends React.Component {
   }
 
   render() {
-    const { gifs, count } = this.props;
-    const parameters = UriFormatter.parse(window.location.search);
-    parameters.count = count;
-
-    const newParameters = { ...parameters };
-    newParameters.count = parseInt(count, 10) + gifsLimit;
+    const {
+      gifs, count, search, pathname,
+    } = this.props;
+    const parameters = new URLSearchParams(search);
+    parameters.set('count', parseInt(count, 10) + gifsLimit);
 
     return (
       <>
         <SearchSection text={parameters.query} handleSubmit={this.handleSubmit} />
         <ResultSection
-          toLoadMore={`/search?${UriFormatter.stringify(newParameters)}`}
+          toLoadMore={`${pathname}?${parameters.toString()}`}
           gifs={gifs}
-          from={`/search?${UriFormatter.stringify(parameters)}`}
+          from={pathname + search}
         />
       </>
     );
@@ -61,17 +61,16 @@ SearchPage.propTypes = {
 
   count: PropTypes.number.isRequired,
 
-  location: PropTypes.shape({
-    search: PropTypes.string,
-    state: PropTypes.shape({
-      from: PropTypes.string,
-    }),
-  }).isRequired,
+  pathname: PropTypes.string.isRequired,
+  search: PropTypes.string.isRequired,
 };
 
-const mapState = ({ searchPageReducer }) => ({
-  gifs: [...searchPageReducer.gifs],
-  count: searchPageReducer.count,
+const mapState = ({ rootReducer, router }) => ({
+  gifs: [...rootReducer.searchPageReducer.gifs],
+  count: rootReducer.searchPageReducer.count,
+
+  pathname: router.location.pathname,
+  search: router.location.search,
 });
 
 const mapDispatch = (dispatch) => ({

@@ -1,5 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { push } from 'connected-react-router';
 import PropTypes from 'prop-types';
 
 import '../styles/searchSection.css';
@@ -29,8 +31,8 @@ class SearchSection extends React.Component {
     searchParameters.append('query', text);
     searchParameters.append('count', '9');
 
-    const { history } = this.props;
-    history.push(`/search?${searchParameters.toString()}`);
+    const { push } = this.props;
+    push(`/search?${searchParameters.toString()}`);
   }
 
   initInputFieldValue = () => {
@@ -66,9 +68,7 @@ class SearchSection extends React.Component {
 }
 
 SearchSection.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
+  push: PropTypes.func.isRequired,
 };
 
-export default withRouter(SearchSection);
+export default connect(null, { push })(SearchSection);
