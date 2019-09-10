@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -18,14 +17,22 @@ const GifOriginal = ({ gif }) => {
       </div>
       <ul>
         <li>
-          Title: <span>{gif.title}</span>
+          Title:
+          &nbsp;
+          <span>{gif.title}</span>
         </li>
         <li>
-          Upload datetime: <span>{gif.uploadDatetime}</span>
+          Upload datetime:
+          &nbsp;
+          <span>{gif.uploadDatetime}</span>
         </li>
         <li>
-          Author: <span>{gif.author}</span> &nbsp;
-        <img className="avatar"
+          Author:
+          &nbsp;
+          <span>{gif.author}</span>
+          &nbsp;
+          <img
+            className="avatar"
             src={gif.authorAvatarUrl}
             alt="Author's avatar"
             ref={avatarImageRef}

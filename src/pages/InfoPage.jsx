@@ -1,9 +1,9 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import InfoSection from '../components/InfoSection';
-import { 
+import {
   fetchGif,
   discardGif,
 } from '../container/actions';
@@ -11,9 +11,9 @@ import {
 
 class InfoPage extends React.Component {
   async componentDidMount() {
-    const { fetchGif } = this.props;
+    const { fetch } = this.props;
     const gifId = window.location.pathname.slice('/gif/'.length);
-    fetchGif(gifId);
+    fetch(gifId);
   }
 
   componentWillUnmount() {
@@ -36,13 +36,32 @@ class InfoPage extends React.Component {
   }
 }
 
+InfoPage.propTypes = {
+  fetch: PropTypes.func.isRequired,
+  unmountGif: PropTypes.func.isRequired,
+
+  gif: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    imageUrl: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    uploadDatetime: PropTypes.string.isRequired,
+    author: PropTypes.string.isRequired,
+    authorAvatarUrl: PropTypes.string.isRequired,
+  }).isRequired,
+
+  location: PropTypes.shape({
+    state: PropTypes.shape({
+      from: PropTypes.string,
+    }).isRequired,
+  }).isRequired,
+};
 
 const mapState = (state) => ({
   gif: state.gifOriginal,
 });
 
 const mapDispatch = (dispatch) => ({
-  fetchGif: (gifId) => dispatch(fetchGif(gifId)),
+  fetch: (gifId) => dispatch(fetchGif(gifId)),
   unmountGif: () => dispatch(discardGif()),
 });
 

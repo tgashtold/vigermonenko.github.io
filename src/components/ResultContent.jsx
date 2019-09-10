@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -24,7 +23,12 @@ const ResultContent = ({ gifs, from }) => (
 );
 
 ResultContent.propTypes = {
-  gifs: PropTypes.arrayOf(PropTypes.object).isRequired,
+  from: PropTypes.string.isRequired,
+
+  gifs: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+  })).isRequired,
 };
 
 export default ResultContent;
