@@ -1,11 +1,13 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { push } from 'connected-react-router';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import '../styles/searchSection.css';
+import { submit } from '../container/reducer';
+
 
 const placeholderText = 'Type here to search all the gifs...';
+const defaultCount = 9;
 
 class SearchSection extends React.Component {
   constructor(props) {
@@ -24,14 +26,8 @@ class SearchSection extends React.Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-
-    const text = this.inputFieldRef.current.value;
-    const searchParameters = new URLSearchParams('');
-    searchParameters.append('query', text);
-    searchParameters.append('count', '9');
-
-    const { push } = this.props;
-    push(`/search?${searchParameters.toString()}`);
+    const { dispatchPush } = this.props;
+    dispatchPush(defaultCount, this.inputFieldRef.current.value);
   }
 
   initInputFieldValue = () => {
@@ -67,7 +63,11 @@ class SearchSection extends React.Component {
 }
 
 SearchSection.propTypes = {
-  push: PropTypes.func.isRequired,
+  dispatchPush: PropTypes.func.isRequired,
 };
 
-export default connect(null, { push })(SearchSection);
+const mapDispatch = (dispatch) => ({
+  dispatchPush: (count, query) => dispatch(submit({ count, query })),
+});
+
+export default connect(null, mapDispatch)(SearchSection);

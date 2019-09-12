@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import { countParamName, queryParamName } from '../services/webroot';
 import SearchSection from '../components/SearchSection';
 import ResultSection from '../components/ResultSection';
 import { fetchGifs } from '../container/reducer';
@@ -25,8 +26,8 @@ class SearchPage extends React.Component {
     const { dispatchGifs, search } = this.props;
     const urlParam = new URLSearchParams(search);
 
-    const query = urlParam.get('query');
-    const count = parseInt(urlParam.get('count'), 10);
+    const query = urlParam.get(queryParamName);
+    const count = parseInt(urlParam.get(countParamName), 10);
     dispatchGifs(count, query);
   }
 
