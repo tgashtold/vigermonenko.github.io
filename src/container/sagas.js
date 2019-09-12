@@ -3,39 +3,37 @@ import { put, takeEvery, all } from 'redux-saga/effects';
 import apiHandler from '../services/GiphyApi';
 import {
   requestGifsByQuery,
-  requestGifsByQuerySucceeded,
-  requestGifsByQueryFailed,
   requestGifById,
-  requestGifByIdSucceeded,
-  requestGifByIdFailed,
 } from './reducer';
 
 
 function* getGifsByQueryAsync({ payload }) {
   try {
-    yield put(requestGifsByQuery(payload.count, payload.query));
+    yield put(requestGifsByQuery.request(payload.count, payload.query));
     const result = yield apiHandler.getGifsByQuery(payload.query, 0, payload.count);
-    yield put(requestGifsByQuerySucceeded(result.data));
+    yield put(requestGifsByQuery.success({ gifs: result.data }));
   } catch (error) {
-    yield put(requestGifsByQueryFailed());
+    yield put(requestGifsByQuery.failed());
   }
 }
 
 function* getGifByIdAsync({ payload }) {
   try {
-    yield put(requestGifById(payload.id));
-    const result = yield apiHandler.getGifById(payload.id);
+    yield put(requestGifById.request({ id: payload }));
+    const result = yield apiHandler.getGifById(payload);
 
-    yield put(requestGifByIdSucceeded({
-      id: payload.id,
-      imageUrl: result.data.images.original.url,
-      title: result.data.title,
-      uploadDatetime: result.data.import_datetime,
-      author: result.data.username || 'unknown',
-      authorAvatarUrl: result.data.user ? result.data.user.avatar_url : '',
+    yield put(requestGifById.success({
+      gifOriginal: {
+        id: payload.id,
+        imageUrl: result.data.images.original.url,
+        title: result.data.title,
+        uploadDatetime: result.data.import_datetime,
+        author: result.data.username || 'unknown',
+        authorAvatarUrl: result.data.user ? result.data.user.avatar_url : '',
+      },
     }));
   } catch (error) {
-    yield put(requestGifByIdFailed());
+    yield put(requestGifById.failed());
   }
 }
 

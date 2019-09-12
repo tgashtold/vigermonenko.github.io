@@ -74,7 +74,7 @@ const mapState = ({ rootReducer, router }) => ({
 });
 
 const mapDispatch = (dispatch) => ({
-  fetch: (count, query) => dispatch(fetchGifs(count, query)),
+  fetch: (count, query) => dispatch(fetchGifs({ count, query })),
 });
 
 export default connect(mapState, mapDispatch)(SearchPage);

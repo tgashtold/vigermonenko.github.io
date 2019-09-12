@@ -1,5 +1,15 @@
 import { combineReducers } from 'redux';
-import { createActions, handleActions } from 'redux-actions';
+import { createAction, handleActions } from 'redux-actions';
+
+import createRequestActions from '../services/actionCreator';
+
+
+export const requestGifsByQuery = createRequestActions('REQUEST_GIFS_BY_QUERY');
+export const requestGifById = createRequestActions('REQUEST_GIF_BY_ID');
+export const fetchGifs = createAction('FETCH_GIFS');
+export const fetchGif = createAction('FETCH_GIF');
+export const discardGif = createAction('DISCARD_GIF');
+
 
 const defaultGifOriginal = {
   id: '',
@@ -64,38 +74,15 @@ const searchPageReducer = handleActions(
     REQUEST_GIFS_BY_QUERY_FAILED: (state) => (
       { ...state, error: { occur: true, message: 'Failed to get gifs by query!' } }
     ),
+    '@@router/LOCATION_CHANGE': (state, action) => {
+      const path = action.payload.location.pathname;
+      return path === '/' ? { ...state, gifs: [] } : { ...state };
+    },
   },
   defaultSearchPageState,
 );
-
 
 export const rootReducer = combineReducers({
   searchPageReducer,
   infoPageReducer,
 });
-
-
-export const {
-  fetchGif,
-  fetchGifs,
-
-  requestGifsByQuery,
-  requestGifsByQuerySucceeded,
-  requestGifById,
-  requestGifByIdSucceeded,
-
-  discardGif,
-  requestGifsByQueryFailed,
-  requestGifByIdFailed,
-} = createActions({
-  FETCH_GIF: (id) => ({ id }),
-  FETCH_GIFS: (count, query) => ({ count, query }),
-
-  REQUEST_GIFS_BY_QUERY: (count, query) => ({ count, query }),
-  REQUEST_GIFS_BY_QUERY_SUCCEEDED: (gifs) => ({ gifs }),
-  REQUEST_GIF_BY_ID: (id) => ({ id }),
-  REQUEST_GIF_BY_ID_SUCCEEDED: (gifOriginal) => ({ gifOriginal }),
-},
-'DISCARD_GIF',
-'REQUEST_GIFS_BY_QUERY_FAILED',
-'REQUEST_GIF_BY_ID_FAILED');
