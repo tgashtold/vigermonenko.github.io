@@ -17,14 +17,7 @@ const InfoSection = ({ gif, previousPath }) => (
 );
 
 InfoSection.propTypes = {
-  gif: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    imageUrl: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    uploadDatetime: PropTypes.string.isRequired,
-    author: PropTypes.string.isRequired,
-    authorAvatarUrl: PropTypes.string.isRequired,
-  }).isRequired,
+  gif: PropTypes.shape({}).isRequired,
 
   previousPath: PropTypes.string.isRequired,
 };

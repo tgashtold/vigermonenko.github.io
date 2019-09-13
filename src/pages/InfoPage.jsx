@@ -11,9 +11,8 @@ import {
 
 class InfoPage extends React.Component {
   async componentDidMount() {
-    const { fetch, pathname } = this.props;
-    const gifId = pathname.slice('/gif/'.length);
-    fetch(gifId);
+    const { fetch, match } = this.props;
+    fetch(match.params.gifId);
   }
 
   componentWillUnmount() {
@@ -40,19 +39,17 @@ InfoPage.propTypes = {
   fetch: PropTypes.func.isRequired,
   unmountGif: PropTypes.func.isRequired,
 
-  gif: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    imageUrl: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    uploadDatetime: PropTypes.string.isRequired,
-    author: PropTypes.string.isRequired,
-    authorAvatarUrl: PropTypes.string.isRequired,
-  }).isRequired,
+  gif: PropTypes.shape({}).isRequired,
 
-  pathname: PropTypes.string.isRequired,
   location: PropTypes.shape({
     state: PropTypes.shape({
       from: PropTypes.string,
+    }),
+  }).isRequired,
+
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      gifId: PropTypes.string.isRequired,
     }),
   }).isRequired,
 };

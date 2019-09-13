@@ -9,6 +9,7 @@ export const requestGifById = createRequestActions('REQUEST_GIF_BY_ID');
 export const fetchGifs = createAction('FETCH_GIFS');
 export const fetchGif = createAction('FETCH_GIF');
 export const discardGif = createAction('DISCARD_GIF');
+export const submit = createAction('SUBMIT');
 
 
 const defaultGifOriginal = {
@@ -40,19 +41,31 @@ const defaultInfoPageState = {
 
 const infoPageReducer = handleActions(
   {
-    FETCH_GIF: (state, action) => (
-      { ...state, gifOriginal: { id: action.payload.id } }
+    [fetchGif]: (state, action) => (
+      { ...state, gifOriginal: { id: action.payload } }
     ),
-    REQUEST_GIF_BY_ID: (state, action) => (
-      { ...state, gifOriginal: { id: action.payload.id } }
+    [requestGifById.request]: (state, action) => (
+      { ...state, gifOriginal: { id: action.payload } }
     ),
-    REQUEST_GIF_BY_ID_SUCCEEDED: (state, action) => (
-      { ...state, gifOriginal: { ...action.payload.gifOriginal }, error: defaultErrorState }
-    ),
-    REQUEST_GIF_BY_ID_FAILED: (state) => (
+    [requestGifById.success]: (state, action) => {
+      const gif = action.payload.data;
+      return {
+        ...state,
+        gifOriginal: {
+          id: gif.id,
+          imageUrl: gif.images.original.url,
+          title: gif.title,
+          uploadDatetime: gif.import_datetime,
+          author: gif.username || 'unknown',
+          authorAvatarUrl: gif.user ? gif.user.avatar_url : '',
+        },
+        error: defaultErrorState,
+      };
+    },
+    [requestGifById.failed]: (state) => (
       { ...state, error: { occur: true, message: 'Failed to get gifs by id!' } }
     ),
-    DISCARD_GIF: (state) => (
+    [discardGif]: (state) => (
       { ...state, gifOriginal: { ...defaultGifOriginal } }
     ),
   },
@@ -62,19 +75,19 @@ const infoPageReducer = handleActions(
 
 const searchPageReducer = handleActions(
   {
-    FETCH_GIFS: (state, action) => (
+    [fetchGifs]: (state, action) => (
       { ...state, ...action.payload }
     ),
-    REQUEST_GIFS_BY_QUERY: (state, action) => (
+    [requestGifsByQuery.request]: (state, action) => (
       { ...state, ...action.payload }
     ),
-    REQUEST_GIFS_BY_QUERY_SUCCEEDED: (state, action) => (
-      { ...state, gifs: [...action.payload.gifs] }
+    [requestGifsByQuery.success]: (state, action) => (
+      { ...state, gifs: [...action.payload.data] }
     ),
-    REQUEST_GIFS_BY_QUERY_FAILED: (state) => (
+    [requestGifsByQuery.failed]: (state) => (
       { ...state, error: { occur: true, message: 'Failed to get gifs by query!' } }
     ),
-    '@@router/LOCATION_CHANGE': (state, action) => {
+    onLocationChange: (state, action) => {
       const path = action.payload.location.pathname;
       return path === '/' ? { ...state, gifs: [] } : { ...state };
     },
