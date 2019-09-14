@@ -1,4 +1,3 @@
-import { combineReducers } from 'redux';
 import { createAction, handleActions } from 'redux-actions';
 
 import createRequestActions from '../services/actionCreator';
@@ -9,7 +8,7 @@ export const requestGifById = createRequestActions('REQUEST_GIF_BY_ID');
 export const fetchGifs = createAction('FETCH_GIFS');
 export const fetchGif = createAction('FETCH_GIF');
 export const discardGif = createAction('DISCARD_GIF');
-export const submit = createAction('SUBMIT');
+export const changeLocation = createAction('CHANGE_LOCATION');
 
 
 const defaultGifOriginal = {
@@ -39,7 +38,7 @@ const defaultInfoPageState = {
 };
 
 
-const infoPageReducer = handleActions(
+export const infoPageReducer = handleActions(
   {
     [fetchGif]: (state, action) => (
       { ...state, gifOriginal: { id: action.payload } }
@@ -73,7 +72,7 @@ const infoPageReducer = handleActions(
 );
 
 
-const searchPageReducer = handleActions(
+export const searchPageReducer = handleActions(
   {
     [fetchGifs]: (state, action) => (
       { ...state, ...action.payload }
@@ -94,8 +93,3 @@ const searchPageReducer = handleActions(
   },
   defaultSearchPageState,
 );
-
-export const rootReducer = combineReducers({
-  searchPageReducer,
-  infoPageReducer,
-});

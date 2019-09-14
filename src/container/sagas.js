@@ -1,15 +1,14 @@
 import { put, takeEvery, all } from 'redux-saga/effects';
-import { push } from 'connected-react-router';
+import { push, replace } from 'connected-react-router';
 
 import createRequestSaga from '../services/sagaCreator';
 import apiHandler from '../services/GiphyApi';
-import { searchPath, countParamName, queryParamName } from '../services/webroot';
 import {
-  requestGifsByQuery,
-  requestGifById,
   fetchGifs,
   fetchGif,
-  submit,
+  requestGifsByQuery,
+  requestGifById,
+  changeLocation,
 } from './reducer';
 
 
@@ -18,15 +17,16 @@ const requestById = (payload) => apiHandler.getGifById(payload);
 const getGifsByQueryAsync = createRequestSaga(requestGifsByQuery, requestByQuery);
 const getGifsByIdAsync = createRequestSaga(requestGifById, requestById);
 
-function* pushOnsubmit({ payload }) {
-  const urlParameters = new URLSearchParams('');
-  urlParameters.append(queryParamName, payload.query);
-  urlParameters.append(countParamName, payload.count);
-  yield put(push(searchPath + urlParameters.toString()));
+function* changeLocationAsync({ payload }) {
+  if (payload.replace) {
+    yield put(replace(payload.path + payload.queryParameters));
+  } else {
+    yield put(push(payload.path + payload.queryParameters));
+  }
 }
 
 function* watchSubmit() {
-  yield takeEvery(submit, pushOnsubmit);
+  yield takeEvery(changeLocation, changeLocationAsync);
 }
 
 function* watchGetGifsByQueryAsync() {

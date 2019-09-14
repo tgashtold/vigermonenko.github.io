@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import { searchPath, queryParamName, countParamName } from '../services/webroot';
+import { changeLocation } from '../container/reducer';
 import '../styles/searchSection.css';
-import { submit } from '../container/reducer';
 
 
 const placeholderText = 'Type here to search all the gifs...';
@@ -26,11 +27,15 @@ class SearchSection extends React.Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    const { dispatchPush } = this.props;
-    dispatchPush(defaultCount, this.inputFieldRef.current.value);
+
+    const { dispatchOnSubmit } = this.props;
+    const query = this.inputFieldRef.current.value;
+
+    dispatchOnSubmit(searchPath, `${queryParamName}=${query}&${countParamName}=${defaultCount}`);
   }
 
   initInputFieldValue = () => {
+    // eslint-disable-next-line no-undef
     const searchParameters = new URLSearchParams(window.location.search);
     const query = searchParameters.get('query');
     this.inputFieldRef.current.value = query;
@@ -63,11 +68,11 @@ class SearchSection extends React.Component {
 }
 
 SearchSection.propTypes = {
-  dispatchPush: PropTypes.func.isRequired,
+  dispatchOnSubmit: PropTypes.func.isRequired,
 };
 
 const mapDispatch = (dispatch) => ({
-  dispatchPush: (count, query) => dispatch(submit({ count, query })),
+  dispatchOnSubmit: (path, queryParameters) => dispatch(changeLocation({ path, queryParameters })),
 });
 
 export default connect(null, mapDispatch)(SearchSection);

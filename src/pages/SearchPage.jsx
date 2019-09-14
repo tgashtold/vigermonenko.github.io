@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { countParamName, queryParamName } from '../services/webroot';
+import { searchPath, countParamName, queryParamName } from '../services/webroot';
 import SearchSection from '../components/SearchSection';
 import ResultSection from '../components/ResultSection';
-import { fetchGifs } from '../container/reducer';
+import { fetchGifs, changeLocation } from '../container/reducer';
 
 
 const gifsLimit = 9;
@@ -31,6 +31,17 @@ class SearchPage extends React.Component {
     dispatchGifs(count, query);
   }
 
+  onLoadMoreClick = () => {
+    const { count, query, dispatchChangeLocation } = this.props;
+    const replace = true;
+    dispatchChangeLocation(searchPath, `${queryParamName}=${query}&${countParamName}=${count + gifsLimit}`, replace);
+  };
+
+  onHomeClick = () => {
+    const { dispatchChangeLocation } = this.props;
+    dispatchChangeLocation('/', '');
+  }
+
   render() {
     const {
       gifs, count, search, pathname,
@@ -40,11 +51,12 @@ class SearchPage extends React.Component {
 
     return (
       <>
-        <SearchSection text={parameters.query} handleSubmit={this.handleSubmit} />
+        <SearchSection text={parameters.query} />
         <ResultSection
-          toLoadMore={`${pathname}?${parameters.toString()}`}
           gifs={gifs}
           from={pathname + search}
+          leftButton={{ name: 'more', onClick: this.onLoadMoreClick }}
+          rightButton={{ name: 'home', onClick: this.onHomeClick }}
         />
       </>
     );
@@ -53,18 +65,22 @@ class SearchPage extends React.Component {
 
 
 SearchPage.propTypes = {
-  dispatchGifs: PropTypes.func.isRequired,
-
   gifs: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 
   count: PropTypes.number.isRequired,
+  query: PropTypes.string.isRequired,
+
   pathname: PropTypes.string.isRequired,
   search: PropTypes.string.isRequired,
+
+  dispatchGifs: PropTypes.func.isRequired,
+  dispatchChangeLocation: PropTypes.func.isRequired,
 };
 
-const mapState = ({ rootReducer, router }) => ({
-  gifs: [...rootReducer.searchPageReducer.gifs],
-  count: rootReducer.searchPageReducer.count,
+const mapState = ({ searchPage, router }) => ({
+  gifs: [...searchPage.gifs],
+  count: searchPage.count,
+  query: searchPage.query,
 
   pathname: router.location.pathname,
   search: router.location.search,
@@ -72,6 +88,9 @@ const mapState = ({ rootReducer, router }) => ({
 
 const mapDispatch = (dispatch) => ({
   dispatchGifs: (count, query) => dispatch(fetchGifs({ count, query })),
+  dispatchChangeLocation: (path, queryParameters, replace) => dispatch(changeLocation({
+    path, queryParameters, replace,
+  })),
 });
 
 export default connect(mapState, mapDispatch)(SearchPage);

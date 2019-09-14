@@ -2,30 +2,28 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import ResultContent from './ResultContent';
-import Navigation from './Navigation';
-
+import SectionNavigation from './SectionNavigation';
 import '../styles/resultSection.css';
 
 
 const ResultSection = ({
-  toLoadMore,
   gifs,
   from,
+  leftButton,
+  rightButton,
 }) => (
   <section className="results-section">
     <ResultContent from={from} gifs={gifs} />
-    <Navigation toLoadMore={toLoadMore} />
+    <SectionNavigation leftButton={leftButton} rightButton={rightButton} />
   </section>
 );
 
 ResultSection.propTypes = {
-  toLoadMore: PropTypes.string.isRequired,
   from: PropTypes.string.isRequired,
+  gifs: PropTypes.arrayOf(PropTypes.shape({ })).isRequired,
 
-  gifs: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-  })).isRequired,
+  leftButton: PropTypes.shape({ }).isRequired,
+  rightButton: PropTypes.shape({ }).isRequired,
 };
 
 export default ResultSection;

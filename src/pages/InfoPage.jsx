@@ -6,38 +6,46 @@ import InfoSection from '../components/InfoSection';
 import {
   fetchGif,
   discardGif,
+  changeLocation
 } from '../container/reducer';
 
 
 class InfoPage extends React.Component {
   async componentDidMount() {
-    const { fetch, match } = this.props;
-    fetch(match.params.gifId);
+    const { dispatchFetch, match } = this.props;
+    dispatchFetch(match.params.gifId);
   }
 
   componentWillUnmount() {
-    const { unmountGif } = this.props;
-    unmountGif();
+    const { dispatchDiscardGif } = this.props;
+    dispatchDiscardGif();
   }
 
-  getPreviousPath() {
+  getPreviousPath = () => {
     const { location } = this.props;
     return location.state
       ? location.state.from
       : '/';
   }
 
+  onClickBack = () => {
+    const { dispatchChangeLocation } = this.props;
+    const previousPath = this.getPreviousPath();
+    dispatchChangeLocation(previousPath, '');
+  }
+
   render() {
     const { gif } = this.props;
     return (
-      <InfoSection gif={gif} previousPath={this.getPreviousPath()} />
+      <InfoSection gif={gif} onClick={this.onClickBack} />
     );
   }
 }
 
 InfoPage.propTypes = {
-  fetch: PropTypes.func.isRequired,
-  unmountGif: PropTypes.func.isRequired,
+  dispatchFetch: PropTypes.func.isRequired,
+  dispatchDiscardGif: PropTypes.func.isRequired,
+  dispatchChangeLocation: PropTypes.func.isRequired,
 
   gif: PropTypes.shape({}).isRequired,
 
@@ -54,16 +62,17 @@ InfoPage.propTypes = {
   }).isRequired,
 };
 
-const mapState = ({ rootReducer, router }) => ({
-  gif: rootReducer.infoPageReducer.gifOriginal,
+const mapState = ({ infoPage, router }) => ({
+  gif: infoPage.gifOriginal,
 
   location: router.location,
   pathname: router.location.pathname,
 });
 
 const mapDispatch = (dispatch) => ({
-  fetch: (gifId) => dispatch(fetchGif(gifId)),
-  unmountGif: () => dispatch(discardGif()),
+  dispatchFetch: (gifId) => dispatch(fetchGif(gifId)),
+  dispatchDiscardGif: () => dispatch(discardGif()),
+  dispatchChangeLocation: (path, queryParameters) => dispatch(changeLocation({ path, queryParameters })),
 });
 
 export default connect(mapState, mapDispatch)(InfoPage);
