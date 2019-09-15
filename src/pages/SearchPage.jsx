@@ -9,6 +9,7 @@ import { fetchGifs, changeLocation } from '../container/reducer';
 
 
 const gifsLimit = 9;
+const replaceHistory = true;
 
 class SearchPage extends React.Component {
   async componentDidMount() {
@@ -24,17 +25,20 @@ class SearchPage extends React.Component {
 
   async onRouteChange() {
     const { dispatchGifs, search } = this.props;
-    const urlParam = new URLSearchParams(search);
+    const urlParameter = new URLSearchParams(search);
 
-    const query = urlParam.get(queryParamName);
-    const count = parseInt(urlParam.get(countParamName), 10);
+    const count = parseInt(urlParameter.get(countParamName), 10);
+    const query = urlParameter.get(queryParamName);
+
     dispatchGifs(count, query);
   }
 
   onLoadMoreClick = () => {
     const { count, query, dispatchChangeLocation } = this.props;
-    const replace = true;
-    dispatchChangeLocation(searchPath, `${queryParamName}=${query}&${countParamName}=${count + gifsLimit}`, replace);
+
+    dispatchChangeLocation(searchPath,
+      `${queryParamName}=${query}&${countParamName}=${count + gifsLimit}`,
+      replaceHistory);
   };
 
   onHomeClick = () => {
@@ -44,14 +48,12 @@ class SearchPage extends React.Component {
 
   render() {
     const {
-      gifs, count, search, pathname,
+      gifs, search, query, pathname,
     } = this.props;
-    const parameters = new URLSearchParams(search);
-    parameters.set('count', count + gifsLimit);
 
     return (
       <>
-        <SearchSection text={parameters.query} />
+        <SearchSection text={query} />
         <ResultSection
           gifs={gifs}
           from={pathname + search}
