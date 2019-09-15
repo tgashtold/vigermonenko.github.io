@@ -13,7 +13,7 @@ export const changeLocation = createAction('CHANGE_LOCATION');
 
 const defaultGifOriginal = {
   id: '',
-  imageUrl: '',
+  url: '',
   title: '',
   uploadDatetime: '',
   author: 'unknown',
@@ -52,7 +52,7 @@ export const infoPageReducer = handleActions(
         ...state,
         gifOriginal: {
           id: gif.id,
-          imageUrl: gif.images.original.url,
+          url: gif.images.original.url,
           title: gif.title,
           uploadDatetime: gif.import_datetime,
           author: gif.username || 'unknown',

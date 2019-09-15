@@ -6,7 +6,7 @@ import InfoSection from '../components/InfoSection';
 import {
   fetchGif,
   discardGif,
-  changeLocation
+  changeLocation,
 } from '../container/reducer';
 
 

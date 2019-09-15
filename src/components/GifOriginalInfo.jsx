@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import '../styles/infoSection.css';
 
-const GifOriginal = ({ gif }) => {
+const GifOriginalInfo = ({ info }) => {
   const avatarImageRef = React.createRef();
 
   const onFailedToLoadAvatar = () => {
@@ -12,30 +12,27 @@ const GifOriginal = ({ gif }) => {
 
   return (
     <div className="gif-info">
-      <div>
-        <img className="gif-original__img" src={gif.imageUrl} alt={gif.title} />
-      </div>
       <ul>
         <li>
           Title:
           &nbsp;
-          <span>{gif.title}</span>
+          <span>{info.title}</span>
         </li>
         <li>
           Upload datetime:
           &nbsp;
-          <span>{gif.uploadDatetime}</span>
+          <span>{info.uploadDatetime}</span>
         </li>
         <li>
           Author:
           &nbsp;
-          <span>{gif.author}</span>
+          <span>{info.author}</span>
           &nbsp;
           <img
-            className="avatar"
-            src={gif.authorAvatarUrl}
-            alt="Author's avatar"
             ref={avatarImageRef}
+            className="avatar"
+            src={info.authorAvatarUrl}
+            alt="Author's avatar"
             onError={onFailedToLoadAvatar}
           />
         </li>
@@ -44,14 +41,13 @@ const GifOriginal = ({ gif }) => {
   );
 };
 
-GifOriginal.propTypes = {
-  gif: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    imageUrl: PropTypes.string.isRequired,
+GifOriginalInfo.propTypes = {
+  info: PropTypes.shape({
     title: PropTypes.string.isRequired,
     uploadDatetime: PropTypes.string.isRequired,
     author: PropTypes.string.isRequired,
     authorAvatarUrl: PropTypes.string.isRequired,
   }).isRequired,
 };
-export default GifOriginal;
+
+export default GifOriginalInfo;
