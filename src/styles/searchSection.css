@@ -34,7 +34,3 @@ input.search__input {
   font-size: 36px;
   color: #f54c46e0;
 }
-
-::placeholder {
-  color: white;
-}

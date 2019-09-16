@@ -1,9 +1,36 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
 import SearchSection from '../components/SearchSection';
+import BoxButton from '../components/BoxButton';
+import { changeLocation } from '../container/reducer';
+import { uploadPath } from '../services/webroot';
 
 
-const HomePage = () => (
-  <SearchSection />
-);
+class HomePage extends React.Component {
+  goToUpload = () => {
+    const { dispatchChangeLocation } = this.props;
+    dispatchChangeLocation(uploadPath);
+  }
 
-export default HomePage;
+  render() {
+    return (
+      <>
+        <BoxButton name="upload" onClick={this.goToUpload} />
+        <SearchSection />
+      </>
+    );
+  }
+}
+
+HomePage.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  dispatchChangeLocation: PropTypes.func.isRequired,
+};
+
+const mapDispatch = (dispatch) => ({
+  dispatchChangeLocation: (path) => dispatch(changeLocation({ path })),
+});
+
+export default connect(null, mapDispatch)(HomePage);

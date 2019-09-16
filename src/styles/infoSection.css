@@ -5,7 +5,7 @@
 }
 
 .gif-info {
-  width: 800px;
+  min-width: 500px;
   height: auto;
   display: flex;
   flex-direction: column;

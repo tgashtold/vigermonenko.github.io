@@ -15,7 +15,7 @@ const App = () => (
         <Route path="/search" exact component={pages.SearchPage} />
         <Route path="/gif/:id" exact component={pages.InfoPage} />
         <Route path="/gif/edit/:id" component={pages.EditingPage} />
-        <Route path="/upload" component={pages.EditingPage} />
+        <Route path="/upload" component={pages.UploadPage} />
       </Switch>
     </ConnectedRouter>
   </MainLayout>

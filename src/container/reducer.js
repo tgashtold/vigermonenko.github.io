@@ -86,7 +86,7 @@ export const searchPageReducer = handleActions(
     [requestGifsByQuery.failed]: (state) => (
       { ...state, error: { occur: true, message: 'Failed to get gifs by query!' } }
     ),
-    onLocationChange: (state, action) => {
+    onLocationChanged: (state, action) => {
       const path = action.payload.location.pathname;
       return path === homePath ? { ...state, gifs: [] } : { ...state };
     },
