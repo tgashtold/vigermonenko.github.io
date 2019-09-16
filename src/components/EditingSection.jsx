@@ -16,10 +16,16 @@ const EditingSection = ({
   </section>
 );
 
+EditingSection.defaultProps = {
+  gif: {
+    url: '',
+    title: '',
+  },
+};
 
 EditingSection.propTypes = {
   mode: PropTypes.oneOf([EDITING, UPLOAD]).isRequired,
-  gif: PropTypes.shape({ }).isRequired,
+  gif: PropTypes.shape({ }),
 
   onSubmit: PropTypes.func.isRequired,
   onGoBack: PropTypes.func.isRequired,

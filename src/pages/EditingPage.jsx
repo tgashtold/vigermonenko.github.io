@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import EditingSection from '../components/EditingSection';
 import { EDITING } from '../components/GifEditingForm';
-import { fetchGif, changeLocation } from '../container/reducer';
+import { fetchGif, changeLocation, editGif } from '../container/reducer';
 import { homePath } from '../services/webroot';
 
 
@@ -18,8 +18,8 @@ class EditingPage extends React.Component {
   }
 
   onSubmitChanges = (newTitle, newAuthor) => {
-    // TODO: dispatch changes
-    alert(`New title: ${newTitle}\nNew author username: ${newAuthor}`);
+    const { dispatchEditGif, gif } = this.props;
+    dispatchEditGif({ id: gif.id, title: newTitle, author: newAuthor });
   }
 
   onGoBack = () => {
@@ -69,6 +69,7 @@ const mapState = ({ infoPage }) => ({
 });
 
 const mapDispatch = (dispatch) => ({
+  dispatchEditGif: (gifInfo) => dispatch(editGif(gifInfo)),
   dispatchFetch: (gifId) => dispatch(fetchGif(gifId)),
   dispatchChangeLocation: (path, state) => dispatch(changeLocation({ path, state })),
 });

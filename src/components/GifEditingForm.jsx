@@ -26,12 +26,18 @@ const GifEditingForm = ({
     const newTitle = titleFieldRef.current.value;
     const newAuthor = authorFieldRef.current.value;
 
+    if (newTitle === '' || newAuthor === '') return;
+
     if (mode === EDITING) {
       onSubmit(newTitle, newAuthor);
     } else {
       const file = fileRef.current.files[0];
+      if (!file) return;
       onSubmit(newTitle, newAuthor, file);
     }
+
+    titleFieldRef.current.value = '';
+    authorFieldRef.current.value = '';
   };
 
   const RenderDependingOnMode = () => (

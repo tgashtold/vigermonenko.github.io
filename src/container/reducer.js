@@ -3,12 +3,18 @@ import { createAction, handleActions } from 'redux-actions';
 import createRequestActions from '../services/actionCreator';
 import { homePath } from '../services/webroot';
 
-export const requestGifsByQuery = createRequestActions('REQUEST_GIFS_BY_QUERY');
-export const requestGifById = createRequestActions('REQUEST_GIF_BY_ID');
 export const fetchGifs = createAction('FETCH_GIFS');
 export const fetchGif = createAction('FETCH_GIF');
-export const discardGif = createAction('DISCARD_GIF');
+export const uploadGif = createAction('UPLOAD_GIF');
+export const editGif = createAction('EDIT_GIF');
+
+export const putGif = createRequestActions('PUG_GIF');
+export const updateGif = createRequestActions('UPDATE_GIF');
+export const requestGifsByQuery = createRequestActions('REQUEST_GIFS_BY_QUERY');
+export const requestGifById = createRequestActions('REQUEST_GIF_BY_ID');
+
 export const changeLocation = createAction('CHANGE_LOCATION');
+export const discardGif = createAction('DISCARD_GIF');
 
 
 const defaultGifOriginal = {
@@ -34,17 +40,36 @@ const defaultSearchPageState = {
 };
 
 const defaultInfoPageState = {
+  lastGifId: '',
   gifOriginal: { ...defaultGifOriginal },
 };
 
+const defaultEditPageState = {
+  editedGif: {
+    id: '',
+    newTitle: '',
+    newAuthorUsername: '',
+  },
+  success: false,
+};
+
+const defaultUploadPageState = {
+  gifRequestedToUpload: {
+    fileName: '',
+    fileSize: 0,
+    title: '',
+    username: '',
+  },
+  uploaded: false,
+};
 
 export const infoPageReducer = handleActions(
   {
     [fetchGif]: (state, action) => (
-      { ...state, gifOriginal: { id: action.payload } }
+      { ...state, lastGifId: action.payload }
     ),
     [requestGifById.request]: (state, action) => (
-      { ...state, gifOriginal: { id: action.payload } }
+      { ...state, lastGifId: action.payload }
     ),
     [requestGifById.success]: (state, action) => {
       const gif = action.payload.data;
@@ -92,4 +117,56 @@ export const searchPageReducer = handleActions(
     },
   },
   defaultSearchPageState,
+);
+
+
+export const editPageReducer = handleActions(
+  {
+    [updateGif.request]: (state, action) => (
+      {
+        ...state,
+        editedGif: {
+          id: action.payload.id,
+          newTitle: action.payload.title,
+          newAuthorUsername: action.payload.author,
+        },
+      }
+    ),
+    [updateGif.success]: (state) => (
+      { ...state, success: true }
+    ),
+    [updateGif.failed]: (state) => (
+      { ...state, success: false }
+    ),
+  },
+  defaultEditPageState,
+);
+
+export const uploadPageReducer = handleActions(
+  {
+    [putGif.request]: (state, action) => (
+      {
+        ...state,
+        gifRequestedToUpload: {
+          fileName: action.payload.gif.image.name,
+          fileSize: action.payload.gif.image.size,
+          title: action.payload.gif.title,
+          username: action.payload.gif.author,
+        },
+      }
+    ),
+    [putGif.success]: (state) => (
+      {
+        ...state,
+        uploaded: true,
+      }
+    ),
+    [putGif.failed]: (state) => (
+      {
+        ...state,
+        uploaded: false,
+      }
+    ),
+  },
+  defaultUploadPageState,
 );

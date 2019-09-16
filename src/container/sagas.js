@@ -4,18 +4,36 @@ import { push, replace } from 'connected-react-router';
 import createRequestSaga from '../services/sagaCreator';
 import apiHandler from '../services/GiphyApi';
 import {
+  uploadGif,
   fetchGifs,
   fetchGif,
+  putGif,
   requestGifsByQuery,
   requestGifById,
   changeLocation,
+  updateGif,
+  editGif,
 } from './reducer';
 
+const uploadGifSagaCallback = (payload) => {
+  const { gif } = payload;
+  alert(`Filename: ${gif.image.name}\nSize: ${gif.image.size} kb\nTitle: ${payload.gif.title}\nUser: ${payload.gif.author}`);
+  return payload;
+};
+
+const editGifSagaCallback = (payload) => {
+  alert(`Gif Id: ${payload.id}\nNew title: ${payload.title}\n${payload.author}`);
+  return payload;
+};
+
+const uploadGifAsync = createRequestSaga(putGif, uploadGifSagaCallback);
+const editGifAsync = createRequestSaga(updateGif, editGifSagaCallback);
 
 const requestByQuery = (payload) => apiHandler.getGifsByQuery(payload.query, 0, payload.count);
 const requestById = (payload) => apiHandler.getGifById(payload);
 const getGifsByQueryAsync = createRequestSaga(requestGifsByQuery, requestByQuery);
 const getGifsByIdAsync = createRequestSaga(requestGifById, requestById);
+
 
 function* changeLocationAsync({ payload }) {
   if (payload.replace) {
@@ -25,7 +43,15 @@ function* changeLocationAsync({ payload }) {
   }
 }
 
-function* watchSubmit() {
+function* watchUploadGif() {
+  yield takeEvery(uploadGif, uploadGifAsync);
+}
+
+function* watchEditGif() {
+  yield takeEvery(editGif, editGifAsync);
+}
+
+function* watchChangeLocation() {
   yield takeEvery(changeLocation, changeLocationAsync);
 }
 
@@ -39,8 +65,10 @@ function* watchGetGifByIdAsync() {
 
 export default function* rootSaga() {
   yield all([
-    watchSubmit(),
+    watchChangeLocation(),
     watchGetGifsByQueryAsync(),
     watchGetGifByIdAsync(),
+    watchUploadGif(),
+    watchEditGif(),
   ]);
 }

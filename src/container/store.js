@@ -4,7 +4,12 @@ import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import createSagaMiddleware from 'redux-saga';
 
-import { searchPageReducer, infoPageReducer } from './reducer';
+import {
+  searchPageReducer,
+  infoPageReducer,
+  editPageReducer,
+  uploadPageReducer,
+} from './reducer';
 import rootSaga from './sagas';
 
 
@@ -14,6 +19,8 @@ const createConnectedRouter = (history) => combineReducers({
   router: connectRouter(history),
   searchPage: searchPageReducer,
   infoPage: infoPageReducer,
+  editingPage: editPageReducer,
+  uploadPage: uploadPageReducer,
 });
 
 const sagaMiddleware = createSagaMiddleware();

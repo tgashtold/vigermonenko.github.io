@@ -5,12 +5,17 @@ import { connect } from 'react-redux';
 import EditingSection from '../components/EditingSection';
 import { UPLOAD } from '../components/GifEditingForm';
 import { homePath } from '../services/webroot';
-import { changeLocation } from '../container/reducer';
+import { changeLocation, uploadGif } from '../container/reducer';
 
 class UploadPage extends React.Component {
-  onUpload = (newTitle, newAuthor, file) => {
-    // eslint-disable-next-line no-alert
-    alert(`Title: ${newTitle}\nFile name: ${file.name}\nSize: ${file.size}`);
+  onUpload = (title, author, file) => {
+    const { dispatchUploadGif } = this.props;
+    const gif = {
+      image: file,
+      title,
+      author,
+    };
+    dispatchUploadGif(gif);
   }
 
   onGoBack = () => {
@@ -30,6 +35,7 @@ class UploadPage extends React.Component {
 }
 
 UploadPage.propTypes = {
+  dispatchUploadGif: PropTypes.func.isRequired,
   dispatchChangeLocation: PropTypes.func.isRequired,
 
   location: PropTypes.shape({
@@ -37,15 +43,10 @@ UploadPage.propTypes = {
       fromGif: PropTypes.string,
     }),
   }).isRequired,
-
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-    }),
-  }).isRequired,
 };
 
 const mapDispatch = (dispatch) => ({
+  dispatchUploadGif: (gif) => dispatch(uploadGif({ gif })),
   dispatchChangeLocation: (path, state) => dispatch(changeLocation({ path, state })),
 });
 

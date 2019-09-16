@@ -25,7 +25,6 @@ class HomePage extends React.Component {
 }
 
 HomePage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
   dispatchChangeLocation: PropTypes.func.isRequired,
 };
 
