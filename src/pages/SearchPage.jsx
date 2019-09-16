@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { searchPath, countParamName, queryParamName } from '../services/webroot';
+import { searchPath, countParamName, queryParamName, homePath } from '../services/webroot';
 import SearchSection from '../components/SearchSection';
 import ResultSection from '../components/ResultSection';
 import { fetchGifs, changeLocation } from '../container/reducer';
@@ -36,14 +36,15 @@ class SearchPage extends React.Component {
   onLoadMoreClick = () => {
     const { count, query, dispatchChangeLocation } = this.props;
 
-    dispatchChangeLocation(searchPath,
-      `${queryParamName}=${query}&${countParamName}=${count + gifsLimit}`,
-      replaceHistory);
+    dispatchChangeLocation(
+      `${searchPath + queryParamName}=${query}&${countParamName}=${count + gifsLimit}`,
+      replaceHistory,
+    );
   };
 
   onHomeClick = () => {
     const { dispatchChangeLocation } = this.props;
-    dispatchChangeLocation('/');
+    dispatchChangeLocation(homePath);
   }
 
   render() {
@@ -90,7 +91,7 @@ const mapState = ({ searchPage, router }) => ({
 
 const mapDispatch = (dispatch) => ({
   dispatchGifs: (count, query) => dispatch(fetchGifs({ count, query })),
-  dispatchChangeLocation: (path, parameters = '', replace = false) => dispatch(changeLocation({ path, parameters, replace })),
+  dispatchChangeLocation: (path, replace = false) => dispatch(changeLocation({ path, replace })),
 });
 
 export default connect(mapState, mapDispatch)(SearchPage);

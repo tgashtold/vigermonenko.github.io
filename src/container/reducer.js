@@ -1,7 +1,7 @@
 import { createAction, handleActions } from 'redux-actions';
 
 import createRequestActions from '../services/actionCreator';
-
+import { homePath } from '../services/webroot';
 
 export const requestGifsByQuery = createRequestActions('REQUEST_GIFS_BY_QUERY');
 export const requestGifById = createRequestActions('REQUEST_GIF_BY_ID');
@@ -88,7 +88,7 @@ export const searchPageReducer = handleActions(
     ),
     onLocationChange: (state, action) => {
       const path = action.payload.location.pathname;
-      return path === '/' ? { ...state, gifs: [] } : { ...state };
+      return path === homePath ? { ...state, gifs: [] } : { ...state };
     },
   },
   defaultSearchPageState,

@@ -30,7 +30,7 @@ class InfoPage extends React.Component {
   onGoEdit = () => {
     const { dispatchChangeLocation, match, location } = this.props;
     const newHistoryState = { ...location.state, fromGif: gifInfoPath + match.params.id };
-    dispatchChangeLocation(editingPath + match.params.id, '', newHistoryState);
+    dispatchChangeLocation(editingPath + match.params.id, newHistoryState);
   }
 
   onGoBack = () => {
@@ -81,7 +81,7 @@ const mapState = ({ infoPage, router }) => ({
 const mapDispatch = (dispatch) => ({
   dispatchFetch: (gifId) => dispatch(fetchGif(gifId)),
   dispatchDiscardGif: () => dispatch(discardGif()),
-  dispatchChangeLocation: (path, parameters = '', state) => dispatch(changeLocation({ path, parameters, state })),
+  dispatchChangeLocation: (path, state) => dispatch(changeLocation({ path, state })),
 });
 
 export default connect(mapState, mapDispatch)(InfoPage);

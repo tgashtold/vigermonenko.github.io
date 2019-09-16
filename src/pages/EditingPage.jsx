@@ -24,7 +24,7 @@ class EditingPage extends React.Component {
   onGoBack = () => {
     const { location, dispatchChangeLocation } = this.props;
     const previousPath = location.state ? location.state.fromGif : homePath;
-    dispatchChangeLocation(previousPath, '', { ...location.state });
+    dispatchChangeLocation(previousPath, { ...location.state });
   }
 
   render() {
@@ -68,7 +68,7 @@ const mapState = ({ infoPage }) => ({
 
 const mapDispatch = (dispatch) => ({
   dispatchFetch: (gifId) => dispatch(fetchGif(gifId)),
-  dispatchChangeLocation: (path, parameters = '', state) => dispatch(changeLocation({ path, parameters, state })),
+  dispatchChangeLocation: (path, state) => dispatch(changeLocation({ path, state })),
 });
 
 

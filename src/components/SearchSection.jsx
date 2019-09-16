@@ -31,7 +31,7 @@ class SearchSection extends React.Component {
     const { dispatchOnSubmit } = this.props;
     const query = this.inputFieldRef.current.value;
 
-    dispatchOnSubmit(searchPath, `${queryParamName}=${query}&${countParamName}=${defaultCount}`);
+    dispatchOnSubmit(`${searchPath + queryParamName}=${query}&${countParamName}=${defaultCount}`);
   }
 
   initInputFieldValue = () => {
@@ -72,7 +72,7 @@ SearchSection.propTypes = {
 };
 
 const mapDispatch = (dispatch) => ({
-  dispatchOnSubmit: (path, parameters = '', state = null) => dispatch(changeLocation({ path, parameters, state })),
+  dispatchOnSubmit: (path, state) => dispatch(changeLocation({ path, state })),
 });
 
 export default connect(null, mapDispatch)(SearchSection);
