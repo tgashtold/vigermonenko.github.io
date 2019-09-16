@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import { homePath, editingPath, gifInfoPath } from '../services/webroot';
 import InfoSection from '../components/InfoSection';
 import {
   fetchGif,
@@ -13,7 +14,7 @@ import {
 class InfoPage extends React.Component {
   async componentDidMount() {
     const { dispatchFetch, match } = this.props;
-    dispatchFetch(match.params.gifId);
+    dispatchFetch(match.params.id);
   }
 
   componentWillUnmount() {
@@ -23,21 +24,29 @@ class InfoPage extends React.Component {
 
   getPreviousPath = () => {
     const { location } = this.props;
-    return location.state
-      ? location.state.from
-      : '/';
+    return location.state ? location.state.from : homePath;
   }
 
-  onClickBack = () => {
+  onGoEdit = () => {
+    const { dispatchChangeLocation, match, location } = this.props;
+    const newHistoryState = { ...location.state, fromGif: gifInfoPath + match.params.id };
+    dispatchChangeLocation(editingPath + match.params.id, '', newHistoryState);
+  }
+
+  onGoBack = () => {
     const { dispatchChangeLocation } = this.props;
     const previousPath = this.getPreviousPath();
-    dispatchChangeLocation(previousPath, '');
+    dispatchChangeLocation(previousPath);
   }
 
   render() {
     const { gif } = this.props;
     return (
-      <InfoSection gif={gif} onClick={this.onClickBack} />
+      <InfoSection
+        gif={gif}
+        onGoBack={this.onGoBack}
+        onGoEdit={this.onGoEdit}
+      />
     );
   }
 }
@@ -57,7 +66,7 @@ InfoPage.propTypes = {
 
   match: PropTypes.shape({
     params: PropTypes.shape({
-      gifId: PropTypes.string.isRequired,
+      id: PropTypes.string.isRequired,
     }),
   }).isRequired,
 };
@@ -72,7 +81,7 @@ const mapState = ({ infoPage, router }) => ({
 const mapDispatch = (dispatch) => ({
   dispatchFetch: (gifId) => dispatch(fetchGif(gifId)),
   dispatchDiscardGif: () => dispatch(discardGif()),
-  dispatchChangeLocation: (path, queryParameters) => dispatch(changeLocation({ path, queryParameters })),
+  dispatchChangeLocation: (path, parameters = '', state) => dispatch(changeLocation({ path, parameters, state })),
 });
 
 export default connect(mapState, mapDispatch)(InfoPage);

@@ -19,9 +19,9 @@ const getGifsByIdAsync = createRequestSaga(requestGifById, requestById);
 
 function* changeLocationAsync({ payload }) {
   if (payload.replace) {
-    yield put(replace(payload.path + payload.queryParameters));
+    yield put(replace(payload.path + payload.parameters, payload.state));
   } else {
-    yield put(push(payload.path + payload.queryParameters));
+    yield put(push(payload.path + payload.parameters, payload.state));
   }
 }
 

@@ -2,23 +2,25 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import GifOriginalSection from './GifOriginalSection';
-import Button from './Button';
+import Navigation from './SectionNavigation';
 
 import '../styles/infoSection.css';
 
-const InfoSection = ({ gif, onClick }) => (
+
+const InfoSection = ({ gif, onGoBack, onGoEdit }) => (
   <section className="info-section">
     <GifOriginalSection gif={gif} />
-    <Button
-      buttonName="back"
-      onClick={onClick}
+    <Navigation
+      leftButton={{ name: 'edit', onClick: onGoEdit }}
+      rightButton={{ name: 'back', onClick: onGoBack }}
     />
   </section>
 );
 
 InfoSection.propTypes = {
   gif: PropTypes.shape({}).isRequired,
-  onClick: PropTypes.func.isRequired,
+  onGoBack: PropTypes.func.isRequired,
+  onGoEdit: PropTypes.func.isRequired,
 };
 
 export default InfoSection;

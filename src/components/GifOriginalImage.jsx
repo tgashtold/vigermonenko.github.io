@@ -15,4 +15,6 @@ GifOriginalImage.propTypes = {
     title: PropTypes.string.isRequired,
   }).isRequired,
 };
+
+
 export default GifOriginalImage;

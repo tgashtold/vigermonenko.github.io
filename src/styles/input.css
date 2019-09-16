@@ -1,7 +1,6 @@
 body {
   display: flex;
   justify-content: center;
-  background-color: beige;
 }
 
 .gif-info {
@@ -35,7 +34,7 @@ form.search__form {
   min-width: 400px;
 }
 
-input.search__input {
+input.edit__input {
   background: transparent;
   border: none;
   width: 100%;
@@ -43,21 +42,6 @@ input.search__input {
   font-size: 24px;
   padding-top: 20px;
   color: #f54c46e0;
-}
-
-::placeholder {
-  font-size: 24px;
-  color: white;
-}
-
-.navigation {
-  padding-top: 20px;
-  width: 500px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-bottom: 20px;
 }
 
 .button {

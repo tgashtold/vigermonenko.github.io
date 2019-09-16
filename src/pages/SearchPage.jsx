@@ -43,7 +43,7 @@ class SearchPage extends React.Component {
 
   onHomeClick = () => {
     const { dispatchChangeLocation } = this.props;
-    dispatchChangeLocation('/', '');
+    dispatchChangeLocation('/');
   }
 
   render() {
@@ -90,9 +90,7 @@ const mapState = ({ searchPage, router }) => ({
 
 const mapDispatch = (dispatch) => ({
   dispatchGifs: (count, query) => dispatch(fetchGifs({ count, query })),
-  dispatchChangeLocation: (path, queryParameters, replace) => dispatch(changeLocation({
-    path, queryParameters, replace,
-  })),
+  dispatchChangeLocation: (path, parameters = '', replace = false) => dispatch(changeLocation({ path, parameters, replace })),
 });
 
 export default connect(mapState, mapDispatch)(SearchPage);

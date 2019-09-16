@@ -72,7 +72,7 @@ SearchSection.propTypes = {
 };
 
 const mapDispatch = (dispatch) => ({
-  dispatchOnSubmit: (path, queryParameters) => dispatch(changeLocation({ path, queryParameters })),
+  dispatchOnSubmit: (path, parameters = '', state = null) => dispatch(changeLocation({ path, parameters, state })),
 });
 
 export default connect(null, mapDispatch)(SearchSection);

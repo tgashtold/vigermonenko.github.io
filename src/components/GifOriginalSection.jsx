@@ -28,4 +28,5 @@ GifOriginalSection.propTypes = {
   }).isRequired,
 };
 
+
 export default GifOriginalSection;

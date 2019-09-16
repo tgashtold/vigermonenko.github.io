@@ -1,22 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import SectionNavigation from './SectionNavigation';
+import GifOriginalImage from './GifOriginalImage';
 import GifEditingForm from './GifEditingForm';
 
 import '../styles/input.css';
 
-const EditingSection = ({ leftButton, rightButton }) => (
+const EditingSection = ({
+  gif,
+  onSubmit,
+  onGoBack,
+}) => (
   <section className="info-section">
-    <div className="gif-info">
-      <img className="gif-original__img" src="" alt="" />
-    </div>
-    <GifEditingForm />
-    <SectionNavigation leftButton={leftButton} rightButton={rightButton} />
+    <GifOriginalImage image={{ url: gif.url, title: gif.title }} />
+    <GifEditingForm onSubmit={onSubmit} onGoBack={onGoBack} />
   </section>
 );
 
 EditingSection.propTypes = {
-  leftButton: PropTypes.shape({ }).isRequired,
-  rightButton: PropTypes.shape({ }).isRequired,
+  gif: PropTypes.shape({
+    url: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+  }).isRequired,
+
+  onSubmit: PropTypes.func.isRequired,
+  onGoBack: PropTypes.func.isRequired,
 };
+
+export default EditingSection;
