@@ -4,14 +4,14 @@ import { connect } from 'react-redux';
 
 import SearchSection from '../components/SearchSection';
 import FixedButton from '../components/FixedButton';
-import { changeLocation } from '../container/reducer';
+import { pushHistory } from '../container/reducer';
 import { uploadPath } from '../services/webroot';
 
 
 class HomePage extends React.Component {
   goToUpload = () => {
-    const { dispatchChangeLocation } = this.props;
-    dispatchChangeLocation(uploadPath);
+    const { dispatchPushHistory } = this.props;
+    dispatchPushHistory(uploadPath);
   }
 
   render() {
@@ -25,11 +25,11 @@ class HomePage extends React.Component {
 }
 
 HomePage.propTypes = {
-  dispatchChangeLocation: PropTypes.func.isRequired,
+  dispatchPushHistory: PropTypes.func.isRequired,
 };
 
 const mapDispatch = (dispatch) => ({
-  dispatchChangeLocation: (path) => dispatch(changeLocation({ path })),
+  dispatchPushHistory: (path) => dispatch(pushHistory({ path })),
 });
 
 export default connect(null, mapDispatch)(HomePage);

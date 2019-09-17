@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import EditingSection from '../components/EditingSection';
 import { EDITING } from '../components/GifEditingForm';
-import { fetchGif, changeLocation, editGif } from '../container/reducer';
+import { fetchGif, editGif, pushHistory } from '../container/reducer';
 import { homePath } from '../services/webroot';
 
 
@@ -23,9 +23,9 @@ class EditingPage extends React.Component {
   }
 
   onGoBack = () => {
-    const { location, dispatchChangeLocation } = this.props;
+    const { location, dispatchPushHistory } = this.props;
     const previousPath = location.state ? location.state.fromGif : homePath;
-    dispatchChangeLocation(previousPath, { ...location.state });
+    dispatchPushHistory(previousPath, { ...location.state });
   }
 
   render() {
@@ -43,8 +43,9 @@ class EditingPage extends React.Component {
 }
 
 EditingPage.propTypes = {
+  dispatchEditGif: PropTypes.func.isRequired,
   dispatchFetch: PropTypes.func.isRequired,
-  dispatchChangeLocation: PropTypes.func.isRequired,
+  dispatchPushHistory: PropTypes.func.isRequired,
 
   gif: PropTypes.shape({
     id: PropTypes.string.isRequired,
@@ -71,7 +72,7 @@ const mapState = ({ infoPage }) => ({
 const mapDispatch = (dispatch) => ({
   dispatchEditGif: (gifInfo) => dispatch(editGif(gifInfo)),
   dispatchFetch: (gifId) => dispatch(fetchGif(gifId)),
-  dispatchChangeLocation: (path, state) => dispatch(changeLocation({ path, state })),
+  dispatchPushHistory: (path, state) => dispatch(pushHistory({ path, state })),
 });
 
 

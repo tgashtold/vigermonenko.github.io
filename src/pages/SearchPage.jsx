@@ -5,11 +5,10 @@ import { connect } from 'react-redux';
 import { searchPath, countParamName, queryParamName, homePath } from '../services/webroot';
 import SearchSection from '../components/SearchSection';
 import ResultSection from '../components/ResultSection';
-import { fetchGifs, changeLocation } from '../container/reducer';
+import { fetchGifs, replaceHistory, pushHistory } from '../container/reducer';
 
 
 const gifsLimit = 9;
-const replaceHistory = true;
 
 class SearchPage extends React.Component {
   async componentDidMount() {
@@ -34,17 +33,18 @@ class SearchPage extends React.Component {
   }
 
   onLoadMoreClick = () => {
-    const { count, query, dispatchChangeLocation } = this.props;
+    const { count, query, dispatchReplaceHistory } = this.props;
 
-    dispatchChangeLocation(
-      `${searchPath + queryParamName}=${query}&${countParamName}=${count + gifsLimit}`,
-      replaceHistory,
-    );
+    const urlParameters = new URLSearchParams('');
+    urlParameters.set(queryParamName, query);
+    urlParameters.set(countParamName, count + gifsLimit);
+
+    dispatchReplaceHistory(searchPath + urlParameters.toString());
   };
 
   onHomeClick = () => {
-    const { dispatchChangeLocation } = this.props;
-    dispatchChangeLocation(homePath);
+    const { dispatchPushHistory } = this.props;
+    dispatchPushHistory(homePath);
   }
 
   render() {
@@ -77,7 +77,8 @@ SearchPage.propTypes = {
   search: PropTypes.string.isRequired,
 
   dispatchGifs: PropTypes.func.isRequired,
-  dispatchChangeLocation: PropTypes.func.isRequired,
+  dispatchPushHistory: PropTypes.func.isRequired,
+  dispatchReplaceHistory: PropTypes.func.isRequired,
 };
 
 const mapState = ({ searchPage, router }) => ({
@@ -91,7 +92,8 @@ const mapState = ({ searchPage, router }) => ({
 
 const mapDispatch = (dispatch) => ({
   dispatchGifs: (count, query) => dispatch(fetchGifs({ count, query })),
-  dispatchChangeLocation: (path, replace = false) => dispatch(changeLocation({ path, replace })),
+  dispatchPushHistory: (path, state) => dispatch(pushHistory({ path, state })),
+  dispatchReplaceHistory: (path, state) => dispatch(replaceHistory({ path, state })),
 });
 
 export default connect(mapState, mapDispatch)(SearchPage);

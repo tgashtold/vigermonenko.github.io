@@ -13,6 +13,8 @@ import {
   changeLocation,
   updateGif,
   editGif,
+  pushHistory,
+  replaceHistory,
 } from './reducer';
 
 const uploadGifSagaCallback = (payload) => {
@@ -43,6 +45,22 @@ function* changeLocationAsync({ payload }) {
   }
 }
 
+function* pushHistoryAsync({ payload }) {
+  yield put(push(payload.path, payload.state));
+}
+
+function* replaceHistoryAsync({ payload }) {
+  yield put(replace(payload.path, payload.state));
+}
+
+function* watchPushHistory() {
+  yield takeEvery(pushHistory, pushHistoryAsync);
+}
+
+function* watchReplaceHistory() {
+  yield takeEvery(replaceHistory, replaceHistoryAsync);
+}
+
 function* watchUploadGif() {
   yield takeEvery(uploadGif, uploadGifAsync);
 }
@@ -65,6 +83,8 @@ function* watchGetGifByIdAsync() {
 
 export default function* rootSaga() {
   yield all([
+    watchPushHistory(),
+    watchReplaceHistory(),
     watchChangeLocation(),
     watchGetGifsByQueryAsync(),
     watchGetGifByIdAsync(),
