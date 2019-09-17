@@ -3,17 +3,17 @@ import PropTypes from 'prop-types';
 
 import '../styles/input.css';
 
-const TextInput = ({ valueRef, placeholderText }) => (
+
+const TextInput = React.forwardRef(({ placeholderText }, ref) => (
   <div className="edit-input-wrapper">
     <input
-      ref={valueRef}
+      ref={ref}
       type="text"
       placeholder={placeholderText}
       className="edit__input"
     />
   </div>
-
-);
+));
 
 TextInput.defaultProps = {
   placeholderText: '',

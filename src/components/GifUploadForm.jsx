@@ -31,9 +31,9 @@ const GifUploadForm = ({ onSubmit, onGoBack }) => {
 
   return (
     <form className="form" onSubmit={submit}>
-      <FileInput valueRef={fileRef} />
-      <TextInput valueRef={titleFieldRef} placeholderText={gifTitlePlaceholderText} />
-      <TextInput valueRef={authorFieldRef} placeholderText={gifAuthorPlaceholderText} />
+      <FileInput ref={fileRef} />
+      <TextInput ref={titleFieldRef} placeholderText={gifTitlePlaceholderText} />
+      <TextInput ref={authorFieldRef} placeholderText={gifAuthorPlaceholderText} />
       <Navigation
         leftButton={{ name: 'submit', onClick: submit }}
         rightButton={{ name: 'back', onClick: onGoBack }}
