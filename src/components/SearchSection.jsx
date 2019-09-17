@@ -40,7 +40,7 @@ class SearchSection extends React.Component {
 
   initInputFieldValue = () => {
     const searchParameters = new URLSearchParams(window.location.search);
-    const query = searchParameters.get('query');
+    const query = searchParameters.get(queryParamName);
     this.inputFieldRef.current.value = query;
   }
 
