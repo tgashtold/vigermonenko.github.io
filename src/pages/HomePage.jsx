@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import SearchSection from '../components/SearchSection';
-import BoxButton from '../components/BoxButton';
+import FixedButton from '../components/FixedButton';
 import { changeLocation } from '../container/reducer';
 import { uploadPath } from '../services/webroot';
 
@@ -17,7 +17,7 @@ class HomePage extends React.Component {
   render() {
     return (
       <>
-        <BoxButton name="upload" onClick={this.goToUpload} />
+        <FixedButton name="upload" onClick={this.goToUpload} />
         <SearchSection />
       </>
     );
