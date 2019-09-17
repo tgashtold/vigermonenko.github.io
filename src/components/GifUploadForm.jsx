@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import FileInput from './FileInput';
 import TextInput from './TextInput';
-import Navigation from './SectionNavigation';
+import Navigation from './Navigation';
 
 const gifTitlePlaceholderText = 'Enter gif title here';
 const gifAuthorPlaceholderText = 'Enter your username here';
@@ -34,10 +34,7 @@ const GifUploadForm = ({ onSubmit, onGoBack }) => {
       <FileInput ref={fileRef} />
       <TextInput ref={titleFieldRef} placeholderText={gifTitlePlaceholderText} />
       <TextInput ref={authorFieldRef} placeholderText={gifAuthorPlaceholderText} />
-      <Navigation
-        leftButton={{ name: 'submit', onClick: submit }}
-        rightButton={{ name: 'back', onClick: onGoBack }}
-      />
+      <Navigation buttons={[{ name: 'submit', onClick: submit }, { name: 'back', onClick: onGoBack }]} />
     </form>
   );
 };

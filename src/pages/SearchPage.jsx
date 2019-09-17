@@ -2,7 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { searchPath, countParamName, queryParamName, homePath } from '../services/webroot';
+import {
+  searchPath,
+  countParamName,
+  queryParamName,
+  homePath,
+} from '../services/webroot';
 import SearchSection from '../components/SearchSection';
 import ResultSection from '../components/ResultSection';
 import { fetchGifs, replaceHistory, pushHistory } from '../container/reducer';
@@ -58,8 +63,7 @@ class SearchPage extends React.Component {
         <ResultSection
           gifs={gifs}
           from={pathname + search}
-          leftButton={{ name: 'more', onClick: this.onLoadMoreClick }}
-          rightButton={{ name: 'home', onClick: this.onHomeClick }}
+          buttons={[{ name: 'more', onClick: this.onLoadMoreClick }, { name: 'home', onClick: this.onHomeClick }]}
         />
       </>
     );
