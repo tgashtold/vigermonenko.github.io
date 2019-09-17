@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-import MinifiedMinifiedGif from './MinifiedGif';
+import MinifiedGif from './MinifiedGif';
 
 const LinkedGif = ({
   gifUrl,
@@ -11,7 +11,7 @@ const LinkedGif = ({
   from,
 }) => (
   <Link to={{ pathname: toGif, state: { from } }}>
-    <MinifiedMinifiedGif title={title} url={gifUrl} />
+    <MinifiedGif title={title} url={gifUrl} />
   </Link>
 );
 
