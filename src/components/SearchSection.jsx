@@ -31,11 +31,14 @@ class SearchSection extends React.Component {
     const { dispatchOnSubmit } = this.props;
     const query = this.inputFieldRef.current.value;
 
-    dispatchOnSubmit(`${searchPath + queryParamName}=${query}&${countParamName}=${defaultCount}`);
+    const urlParameters = new URLSearchParams('');
+    urlParameters.set(queryParamName, query);
+    urlParameters.set(countParamName, defaultCount);
+
+    dispatchOnSubmit(searchPath + urlParameters.toString());
   }
 
   initInputFieldValue = () => {
-    // eslint-disable-next-line no-undef
     const searchParameters = new URLSearchParams(window.location.search);
     const query = searchParameters.get('query');
     this.inputFieldRef.current.value = query;
