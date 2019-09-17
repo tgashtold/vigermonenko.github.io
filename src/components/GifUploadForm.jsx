@@ -1,36 +1,37 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import GifOriginalImage from './GifOriginalImage';
+import FileInput from './FileInput';
 import TextInput from './TextInput';
 import Navigation from './SectionNavigation';
-
 
 const gifTitlePlaceholderText = 'Enter gif title here';
 const gifAuthorPlaceholderText = 'Enter your username here';
 
-const GifEditingForm = ({
-  gif,
-  onSubmit,
-  onGoBack,
-}) => {
+
+const GifUploadForm = ({ onSubmit, onGoBack }) => {
+  const fileRef = React.createRef();
   const titleFieldRef = React.createRef();
   const authorFieldRef = React.createRef();
 
-
   const submit = (event) => {
     event.preventDefault();
+
     const newTitle = titleFieldRef.current.value;
     const newAuthor = authorFieldRef.current.value;
+    const file = fileRef.current.files[0];
 
     if (newTitle === '' || newAuthor === '') return;
 
-    onSubmit(newTitle, newAuthor);
+    onSubmit(newTitle, newAuthor, file);
+
+    titleFieldRef.current.value = '';
+    authorFieldRef.current.value = '';
   };
 
   return (
     <form className="form" onSubmit={submit}>
-      <GifOriginalImage image={{ url: gif.url, title: gif.title }} />
+      <FileInput valueRef={fileRef} />
       <TextInput valueRef={titleFieldRef} placeholderText={gifTitlePlaceholderText} />
       <TextInput valueRef={authorFieldRef} placeholderText={gifAuthorPlaceholderText} />
       <Navigation
@@ -41,21 +42,9 @@ const GifEditingForm = ({
   );
 };
 
-GifEditingForm.defaultProps = {
-  gif: {
-    url: '',
-    title: '',
-  },
-};
-
-GifEditingForm.propTypes = {
-  gif: PropTypes.shape({
-    url: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-  }),
-
+GifUploadForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onGoBack: PropTypes.func.isRequired,
 };
 
-export default GifEditingForm;
+export default GifUploadForm;

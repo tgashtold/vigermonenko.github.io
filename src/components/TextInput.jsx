@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 
 import '../styles/input.css';
 
-const TextInput = ({ ref, placeholderText }) => (
+const TextInput = ({ valueRef, placeholderText }) => (
   <div className="edit-input-wrapper">
     <input
-      ref={ref}
+      ref={valueRef}
       type="text"
       placeholder={placeholderText}
       className="edit__input"
@@ -20,7 +20,7 @@ TextInput.defaultProps = {
 };
 
 TextInput.propTypes = {
-  ref: PropTypes.shape({
+  valueRef: PropTypes.shape({
     current: PropTypes.any,
   }).isRequired,
   placeholderText: PropTypes.string,

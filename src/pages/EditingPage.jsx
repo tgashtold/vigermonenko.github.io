@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import EditingSection from '../components/EditingSection';
-import { EDITING } from '../components/GifEditingForm';
 import { fetchGif, editGif, pushHistory } from '../container/reducer';
 import { homePath } from '../services/webroot';
 
@@ -36,7 +35,6 @@ class EditingPage extends React.Component {
         gif={gif}
         onSubmit={this.onSubmitChanges}
         onGoBack={this.onGoBack}
-        mode={EDITING}
       />
     );
   }

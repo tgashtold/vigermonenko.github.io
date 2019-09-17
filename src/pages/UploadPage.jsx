@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import EditingSection from '../components/EditingSection';
-import { UPLOAD } from '../components/GifEditingForm';
+import Section from '../components/UploadSection';
 import { homePath } from '../services/webroot';
 import { uploadGif, pushHistory } from '../container/reducer';
 
@@ -25,11 +24,7 @@ class UploadPage extends React.Component {
 
   render() {
     return (
-      <EditingSection
-        onSubmit={this.onUpload}
-        onGoBack={this.onGoBack}
-        mode={UPLOAD}
-      />
+      <Section onSubmit={this.onUpload} onGoBack={this.onGoBack} />
     );
   }
 }
