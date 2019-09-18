@@ -9,35 +9,46 @@ const gifTitlePlaceholderText = 'Enter gif title here';
 const gifAuthorPlaceholderText = 'Enter your username here';
 
 
-const GifUploadForm = ({ onSubmit, onGoBack }) => {
-  const fileRef = React.createRef();
-  const titleFieldRef = React.createRef();
-  const authorFieldRef = React.createRef();
+class GifUploadForm extends React.Component {
+  constructor(props) {
+    super(props);
 
-  const submit = (event) => {
+    this.inputFileRef = React.createRef();
+  }
+
+  submit = (event) => {
     event.preventDefault();
 
-    const newTitle = titleFieldRef.current.value;
-    const newAuthor = authorFieldRef.current.value;
-    const file = fileRef.current.files[0];
+    const { title, author } = this.state;
+    const { onSubmit } = this.props;
+    const file = this.inputFileRef.current.files[0];
 
-    if (newTitle === '' || newAuthor === '') return;
+    if (title === '' || author === '' || !file) return;
 
-    onSubmit(newTitle, newAuthor, file);
-
-    titleFieldRef.current.value = '';
-    authorFieldRef.current.value = '';
+    onSubmit(title, author, file);
   };
 
-  return (
-    <form className="form" onSubmit={submit}>
-      <FileInput ref={fileRef} />
-      <TextInput ref={titleFieldRef} placeholderText={gifTitlePlaceholderText} />
-      <TextInput ref={authorFieldRef} placeholderText={gifAuthorPlaceholderText} />
-      <Navigation buttons={[{ name: 'submit', onClick: submit }, { name: 'back', onClick: onGoBack }]} />
-    </form>
-  );
-};
+  onGifTitleChange = (text) => {
+    this.setState({ title: text });
+  }
+
+  onGifAuthorChange = (text) => {
+    this.setState({ author: text });
+  }
+
+  render() {
+    const { onGoBack } = this.props;
+
+    return (
+      <form className="form" onSubmit={this.submit}>
+        <FileInput ref={this.inputFileRef} />
+        <TextInput onChange={this.onGifTitleChange} placeholderText={gifTitlePlaceholderText} />
+        <TextInput onChange={this.onGifAuthorChange} placeholderText={gifAuthorPlaceholderText} />
+        <Navigation buttons={[{ name: 'submit', onClick: this.submit }, { name: 'back', onClick: onGoBack }]} />
+      </form>
+    );
+  }
+}
 
 GifUploadForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,

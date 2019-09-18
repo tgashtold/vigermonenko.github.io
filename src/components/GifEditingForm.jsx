@@ -9,34 +9,38 @@ import Navigation from './Navigation';
 const gifTitlePlaceholderText = 'Enter gif title here';
 const gifAuthorPlaceholderText = 'Enter your username here';
 
-const GifEditingForm = ({
-  gif,
-  onSubmit,
-  onGoBack,
-}) => {
-  const titleFieldRef = React.createRef();
-  const authorFieldRef = React.createRef();
-
-
-  const submit = (event) => {
+class GifEditingForm extends React.Component {
+  submit = (event) => {
     event.preventDefault();
-    const newTitle = titleFieldRef.current.value;
-    const newAuthor = authorFieldRef.current.value;
 
-    if (newTitle === '' || newAuthor === '') return;
+    const { onSubmit } = this.props;
+    const { title, author } = this.state;
+    if (title === '' || author === '') return;
 
-    onSubmit(newTitle, newAuthor);
+    onSubmit(title, author);
   };
 
-  return (
-    <form className="form" onSubmit={submit}>
-      <GifOriginalImage image={{ url: gif.url, title: gif.title }} />
-      <TextInput ref={titleFieldRef} placeholderText={gifTitlePlaceholderText} />
-      <TextInput ref={authorFieldRef} placeholderText={gifAuthorPlaceholderText} />
-      <Navigation buttons={[{ name: 'submit', onClick: submit }, { name: 'back', onClick: onGoBack }]} />
-    </form>
-  );
-};
+  onGifTitleChange = (text) => {
+    this.setState({ title: text });
+  }
+
+  onGifAuthorChange = (text) => {
+    this.setState({ author: text });
+  }
+
+  render() {
+    const { gif, onGoBack } = this.props;
+
+    return (
+      <form className="form" onSubmit={this.submit}>
+        <GifOriginalImage image={{ url: gif.url, title: gif.title }} />
+        <TextInput onChange={this.onGifTitleChange} placeholderText={gifTitlePlaceholderText} />
+        <TextInput onChange={this.onGifAuthorChange} placeholderText={gifAuthorPlaceholderText} />
+        <Navigation buttons={[{ name: 'submit', onClick: this.submit }, { name: 'back', onClick: onGoBack }]} />
+      </form>
+    );
+  }
+}
 
 GifEditingForm.defaultProps = {
   gif: {

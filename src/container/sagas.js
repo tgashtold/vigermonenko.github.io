@@ -24,7 +24,7 @@ const uploadGifSagaCallback = (payload) => {
 };
 
 const editGifSagaCallback = (payload) => {
-  alert(`Gif Id: ${payload.id}\nNew title: ${payload.title}\n${payload.author}`);
+  alert(`Gif Id: ${payload.id}\nNew title: ${payload.title}\nAuthor: ${payload.author}`);
   return payload;
 };
 
