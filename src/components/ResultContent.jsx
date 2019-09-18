@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import LinkedMinifiedGif from './LinkedMinifiedGif';
+import LinkedGif from './LinkedGif';
+import { gifInfoPath } from '../services/webroot';
 
 import '../styles/resultSection.css';
 
@@ -10,9 +11,9 @@ const ResultContent = ({ gifs, from }) => (
   <section className="search-result-content">
     {
       gifs.map((gif) => (
-        <LinkedMinifiedGif
+        <LinkedGif
           key={gif.id}
-          toGif={`/gif/${gif.id}`}
+          toGif={gifInfoPath + gif.id}
           from={from}
           gifUrl={gif.images.original.url}
           title={gif.title}

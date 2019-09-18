@@ -5,11 +5,7 @@ import Button from './Button';
 import '../styles/resultSection.css';
 
 const Navigation = ({ buttons }) => {
-  const buttonComponents = [];
-
-  buttons.forEach((button) => {
-    buttonComponents.push(<Button buttonName={button.name} onClick={button.onClick} />);
-  });
+  const buttonComponents = buttons.map((button) => (<Button buttonName={button.name} onClick={button.onClick} />));
 
   return (
     <nav className="navigation-section">
