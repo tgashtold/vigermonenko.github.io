@@ -8,7 +8,7 @@ import Navigation from './Navigation';
 const gifTitlePlaceholderText = 'Enter gif title here';
 const gifAuthorPlaceholderText = 'Enter your username here';
 
-class GifInfoInput extends React.Component {
+class GifInfoInputs extends React.Component {
   onGifTitleChange = (text) => {
     this.setState({ title: text });
   }
@@ -41,9 +41,9 @@ class GifInfoInput extends React.Component {
   }
 }
 
-GifInfoInput.propTypes = {
+GifInfoInputs.propTypes = {
   onGoBack: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
 };
 
-export default GifInfoInput;
+export default GifInfoInputs;

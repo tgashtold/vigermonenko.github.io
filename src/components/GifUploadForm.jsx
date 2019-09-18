@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import FileInput from './FileInput';
-import GifInfoInput from './GifInfoInput';
+import GifInfoInputs from './GifInfoInputs';
 
 
 class GifUploadForm extends React.Component {
@@ -27,7 +27,7 @@ class GifUploadForm extends React.Component {
     return (
       <form className="form">
         <FileInput ref={this.inputFileRef} />
-        <GifInfoInput onGoBack={onGoBack} onSubmit={this.onSubmit} />
+        <GifInfoInputs onGoBack={onGoBack} onSubmit={this.onSubmit} />
       </form>
     );
   }
