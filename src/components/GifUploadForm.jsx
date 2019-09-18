@@ -2,11 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import FileInput from './FileInput';
-import TextInput from './TextInput';
-import Navigation from './Navigation';
-
-const gifTitlePlaceholderText = 'Enter gif title here';
-const gifAuthorPlaceholderText = 'Enter your username here';
+import GifInfoInput from './GifInfoInput';
 
 
 class GifUploadForm extends React.Component {
@@ -16,35 +12,22 @@ class GifUploadForm extends React.Component {
     this.inputFileRef = React.createRef();
   }
 
-  submit = (event) => {
-    event.preventDefault();
-
-    const { title, author } = this.state;
+  onSubmit = (title, author) => {
     const { onSubmit } = this.props;
-    const file = this.inputFileRef.current.files[0];
 
-    if (title === '' || author === '' || !file) return;
+    const file = this.inputFileRef.current.files[0];
+    if (!file) return;
 
     onSubmit(title, author, file);
   };
-
-  onGifTitleChange = (text) => {
-    this.setState({ title: text });
-  }
-
-  onGifAuthorChange = (text) => {
-    this.setState({ author: text });
-  }
 
   render() {
     const { onGoBack } = this.props;
 
     return (
-      <form className="form" onSubmit={this.submit}>
+      <form className="form">
         <FileInput ref={this.inputFileRef} />
-        <TextInput onChange={this.onGifTitleChange} placeholderText={gifTitlePlaceholderText} />
-        <TextInput onChange={this.onGifAuthorChange} placeholderText={gifAuthorPlaceholderText} />
-        <Navigation buttons={[{ name: 'submit', onClick: this.submit }, { name: 'back', onClick: onGoBack }]} />
+        <GifInfoInput onGoBack={onGoBack} onSubmit={this.onSubmit} />
       </form>
     );
   }

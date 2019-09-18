@@ -2,31 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import GifOriginalImage from './GifOriginalImage';
-import TextInput from './TextInput';
-import Navigation from './Navigation';
+import GifInfoInput from './GifInfoInput';
 
-
-const gifTitlePlaceholderText = 'Enter gif title here';
-const gifAuthorPlaceholderText = 'Enter your username here';
 
 class GifEditingForm extends React.Component {
-  submit = (event) => {
-    event.preventDefault();
-
+  submit = (title, author) => {
     const { onSubmit } = this.props;
-    const { title, author } = this.state;
-    if (title === '' || author === '') return;
-
     onSubmit(title, author);
   };
-
-  onGifTitleChange = (text) => {
-    this.setState({ title: text });
-  }
-
-  onGifAuthorChange = (text) => {
-    this.setState({ author: text });
-  }
 
   render() {
     const { gif, onGoBack } = this.props;
@@ -34,9 +17,7 @@ class GifEditingForm extends React.Component {
     return (
       <form className="form" onSubmit={this.submit}>
         <GifOriginalImage image={{ url: gif.url, title: gif.title }} />
-        <TextInput onChange={this.onGifTitleChange} placeholderText={gifTitlePlaceholderText} />
-        <TextInput onChange={this.onGifAuthorChange} placeholderText={gifAuthorPlaceholderText} />
-        <Navigation buttons={[{ name: 'submit', onClick: this.submit }, { name: 'back', onClick: onGoBack }]} />
+        <GifInfoInput onSubmit={this.onSubmit} onGoBack={onGoBack} />
       </form>
     );
   }
