@@ -2,62 +2,26 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import GifOriginalImage from './GifOriginalImage';
-import FileInput from './FileInput';
-import TextInput from './TextInput';
-import Navigation from './SectionNavigation';
+import GifInfoInput from './GifInfoInput';
 
-export const EDITING = 'EDITING';
-export const UPLOAD = 'UPLOAD';
-const gifTitlePlaceholderText = 'Enter gif title here';
-const gifAuthorPlaceholderText = 'Enter your username here';
 
-const GifEditingForm = ({
-  gif,
-  onSubmit,
-  onGoBack,
-  mode,
-}) => {
-  const titleFieldRef = React.createRef();
-  const authorFieldRef = React.createRef();
-  const fileRef = React.createRef();
-
-  const submit = (event) => {
-    event.preventDefault();
-    const newTitle = titleFieldRef.current.value;
-    const newAuthor = authorFieldRef.current.value;
-
-    if (newTitle === '' || newAuthor === '') return;
-
-    if (mode === EDITING) {
-      onSubmit(newTitle, newAuthor);
-    } else {
-      const file = fileRef.current.files[0];
-      if (!file) return;
-      onSubmit(newTitle, newAuthor, file);
-    }
-
-    titleFieldRef.current.value = '';
-    authorFieldRef.current.value = '';
+class GifEditingForm extends React.Component {
+  submit = (title, author) => {
+    const { onSubmit } = this.props;
+    onSubmit(title, author);
   };
 
-  const RenderDependingOnMode = () => (
-    mode === EDITING
-      ? <GifOriginalImage image={{ url: gif.url, title: gif.title }} />
-      : <FileInput valueRef={fileRef} />
-  );
+  render() {
+    const { gif, onGoBack } = this.props;
 
-  return (
-    <form className="form" onSubmit={submit}>
-      {RenderDependingOnMode()}
-      <TextInput valueRef={titleFieldRef} placeholderText={gifTitlePlaceholderText} />
-      <TextInput valueRef={authorFieldRef} placeholderText={gifAuthorPlaceholderText} />
-      <Navigation
-        leftButton={{ name: 'submit', onClick: submit }}
-        rightButton={{ name: 'back', onClick: onGoBack }}
-      />
-    </form>
-  );
-};
+    return (
+      <form className="form" onSubmit={this.submit}>
+        <GifOriginalImage image={{ url: gif.url, title: gif.title }} />
+        <GifInfoInput onSubmit={this.onSubmit} onGoBack={onGoBack} />
+      </form>
+    );
+  }
+}
 
 GifEditingForm.defaultProps = {
   gif: {
@@ -67,7 +31,6 @@ GifEditingForm.defaultProps = {
 };
 
 GifEditingForm.propTypes = {
-  mode: PropTypes.oneOf([EDITING, UPLOAD]).isRequired,
   gif: PropTypes.shape({
     url: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,

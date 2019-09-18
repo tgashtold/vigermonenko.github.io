@@ -7,7 +7,7 @@ import InfoSection from '../components/InfoSection';
 import {
   fetchGif,
   discardGif,
-  changeLocation,
+  pushHistory,
 } from '../container/reducer';
 
 
@@ -28,15 +28,15 @@ class InfoPage extends React.Component {
   }
 
   onGoEdit = () => {
-    const { dispatchChangeLocation, match, location } = this.props;
+    const { dispatchPushHistory, match, location } = this.props;
     const newHistoryState = { ...location.state, fromGif: gifInfoPath + match.params.id };
-    dispatchChangeLocation(editingPath + match.params.id, newHistoryState);
+    dispatchPushHistory(editingPath + match.params.id, newHistoryState);
   }
 
   onGoBack = () => {
-    const { dispatchChangeLocation } = this.props;
+    const { dispatchPushHistory } = this.props;
     const previousPath = this.getPreviousPath();
-    dispatchChangeLocation(previousPath);
+    dispatchPushHistory(previousPath);
   }
 
   render() {
@@ -54,7 +54,7 @@ class InfoPage extends React.Component {
 InfoPage.propTypes = {
   dispatchFetch: PropTypes.func.isRequired,
   dispatchDiscardGif: PropTypes.func.isRequired,
-  dispatchChangeLocation: PropTypes.func.isRequired,
+  dispatchPushHistory: PropTypes.func.isRequired,
 
   gif: PropTypes.shape({}).isRequired,
 
@@ -81,7 +81,7 @@ const mapState = ({ infoPage, router }) => ({
 const mapDispatch = (dispatch) => ({
   dispatchFetch: (gifId) => dispatch(fetchGif(gifId)),
   dispatchDiscardGif: () => dispatch(discardGif()),
-  dispatchChangeLocation: (path, state) => dispatch(changeLocation({ path, state })),
+  dispatchPushHistory: (path, state) => dispatch(pushHistory({ path, state })),
 });
 
 export default connect(mapState, mapDispatch)(InfoPage);

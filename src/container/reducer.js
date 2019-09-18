@@ -1,7 +1,9 @@
 import { createAction, handleActions } from 'redux-actions';
+import { onLocationChanged } from 'connected-react-router/lib/actions';
 
 import createRequestActions from '../services/actionCreator';
 import { homePath } from '../services/webroot';
+
 
 export const fetchGifs = createAction('FETCH_GIFS');
 export const fetchGif = createAction('FETCH_GIF');
@@ -14,6 +16,8 @@ export const requestGifsByQuery = createRequestActions('REQUEST_GIFS_BY_QUERY');
 export const requestGifById = createRequestActions('REQUEST_GIF_BY_ID');
 
 export const changeLocation = createAction('CHANGE_LOCATION');
+export const pushHistory = createAction('PUSH_HISTORY');
+export const replaceHistory = createAction('REPLACE_HISTORY');
 export const discardGif = createAction('DISCARD_GIF');
 
 
@@ -111,7 +115,7 @@ export const searchPageReducer = handleActions(
     [requestGifsByQuery.failed]: (state) => (
       { ...state, error: { occur: true, message: 'Failed to get gifs by query!' } }
     ),
-    onLocationChanged: (state, action) => {
+    [onLocationChanged]: (state, action) => {
       const path = action.payload.location.pathname;
       return path === homePath ? { ...state, gifs: [] } : { ...state };
     },

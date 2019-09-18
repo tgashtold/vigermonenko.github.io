@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import GifOriginalSection from './GifOriginalSection';
-import Navigation from './SectionNavigation';
+import Navigation from './Navigation';
 
 import '../styles/infoSection.css';
 
@@ -10,10 +10,7 @@ import '../styles/infoSection.css';
 const InfoSection = ({ gif, onGoBack, onGoEdit }) => (
   <section className="info-section">
     <GifOriginalSection gif={gif} />
-    <Navigation
-      leftButton={{ name: 'edit', onClick: onGoEdit }}
-      rightButton={{ name: 'back', onClick: onGoBack }}
-    />
+    <Navigation buttons={[{ name: 'edit', onClick: onGoEdit }, { name: 'back', onClick: onGoBack }]} />
   </section>
 );
 

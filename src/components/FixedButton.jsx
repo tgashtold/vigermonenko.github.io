@@ -5,15 +5,15 @@ import Button from './Button';
 
 import '../styles/input.css';
 
-const BoxButton = ({ name, onClick }) => (
+const FixedButton = ({ name, onClick }) => (
   <div className="box">
     <Button buttonName={name} onClick={onClick} />
   </div>
 );
 
-BoxButton.propTypes = {
+FixedButton.propTypes = {
   name: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
 };
 
-export default BoxButton;
+export default FixedButton;

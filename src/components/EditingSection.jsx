@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import GifEditingForm, { EDITING, UPLOAD } from './GifEditingForm';
+import GifEditingForm from './GifEditingForm';
 
 import '../styles/input.css';
 
@@ -9,10 +9,9 @@ const EditingSection = ({
   gif,
   onSubmit,
   onGoBack,
-  mode,
 }) => (
   <section className="info-section">
-    <GifEditingForm mode={mode} gif={gif} onSubmit={onSubmit} onGoBack={onGoBack} />
+    <GifEditingForm gif={gif} onSubmit={onSubmit} onGoBack={onGoBack} />
   </section>
 );
 
@@ -24,7 +23,6 @@ EditingSection.defaultProps = {
 };
 
 EditingSection.propTypes = {
-  mode: PropTypes.oneOf([EDITING, UPLOAD]).isRequired,
   gif: PropTypes.shape({ }),
 
   onSubmit: PropTypes.func.isRequired,

@@ -16,12 +16,12 @@ const GifOriginalInfo = ({ info }) => {
         <li>
           Title:
           &nbsp;
-          <span>{info.title}</span>
+          <span className="gif-info-value">{info.title}</span>
         </li>
         <li>
           Upload datetime:
           &nbsp;
-          <span>{info.uploadDatetime}</span>
+          <span className="gif-info-value">{info.uploadDatetime}</span>
         </li>
         <li>
           Author:

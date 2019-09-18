@@ -2,10 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import EditingSection from '../components/EditingSection';
-import { UPLOAD } from '../components/GifEditingForm';
+import Section from '../components/UploadSection';
 import { homePath } from '../services/webroot';
-import { changeLocation, uploadGif } from '../container/reducer';
+import { uploadGif, pushHistory } from '../container/reducer';
 
 class UploadPage extends React.Component {
   onUpload = (title, author, file) => {
@@ -19,24 +18,20 @@ class UploadPage extends React.Component {
   }
 
   onGoBack = () => {
-    const { dispatchChangeLocation } = this.props;
-    dispatchChangeLocation(homePath);
+    const { dispatchPushHistory } = this.props;
+    dispatchPushHistory(homePath);
   }
 
   render() {
     return (
-      <EditingSection
-        onSubmit={this.onUpload}
-        onGoBack={this.onGoBack}
-        mode={UPLOAD}
-      />
+      <Section onSubmit={this.onUpload} onGoBack={this.onGoBack} />
     );
   }
 }
 
 UploadPage.propTypes = {
   dispatchUploadGif: PropTypes.func.isRequired,
-  dispatchChangeLocation: PropTypes.func.isRequired,
+  dispatchPushHistory: PropTypes.func.isRequired,
 
   location: PropTypes.shape({
     state: PropTypes.shape({
@@ -47,7 +42,7 @@ UploadPage.propTypes = {
 
 const mapDispatch = (dispatch) => ({
   dispatchUploadGif: (gif) => dispatch(uploadGif({ gif })),
-  dispatchChangeLocation: (path, state) => dispatch(changeLocation({ path, state })),
+  dispatchPushHistory: (path, state) => dispatch(pushHistory({ path, state })),
 });
 
 export default connect(null, mapDispatch)(UploadPage);
