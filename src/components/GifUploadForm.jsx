@@ -6,27 +6,25 @@ import GifInfoInputs from './GifInfoInputs';
 
 
 class GifUploadForm extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.inputFileRef = React.createRef();
-  }
-
   onSubmit = (title, author) => {
     const { onSubmit } = this.props;
+    const { file } = this.state;
 
-    const file = this.inputFileRef.current.files[0];
     if (!file) return;
 
     onSubmit(title, author, file);
   };
+
+  onFileSelected = (file) => {
+    this.setState({ file });
+  }
 
   render() {
     const { onGoBack } = this.props;
 
     return (
       <form className="form">
-        <FileInput ref={this.inputFileRef} />
+        <FileInput onFileSelected={this.onFileSelected} />
         <GifInfoInputs onGoBack={onGoBack} onSubmit={this.onSubmit} />
       </form>
     );

@@ -7,17 +7,19 @@ const defaultLabelText = 'Choose file';
 class FileInput extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = ({ labelText: defaultLabelText });
   }
 
-  onFileSelected = () => {
-    const { inputFieldRef } = this.props;
-    const fileName = inputFieldRef.current.files[0].name;
-    this.setState({ labelText: fileName });
+  onChange = (event) => {
+    const { onFileSelected } = this.props;
+    const file = event.target.files[0];
+
+    onFileSelected(file);
+    this.setState({ labelText: file.name });
   }
 
   render() {
-    const { inputFieldRef } = this.props;
     const { labelText } = this.state;
 
     return (
@@ -25,12 +27,11 @@ class FileInput extends React.Component {
         <label htmlFor="fileInput" className="input-file__label">
           {labelText}
           <input
-            ref={inputFieldRef}
             type="file"
             name="file"
             id="fileInput"
             className="input-file__input"
-            onChange={this.onFileSelected}
+            onChange={this.onChange}
           />
         </label>
       </div>
@@ -39,9 +40,7 @@ class FileInput extends React.Component {
 }
 
 FileInput.propTypes = {
-  inputFieldRef: PropTypes.shape({
-    current: PropTypes.any,
-  }).isRequired,
+  onFileSelected: PropTypes.func.isRequired,
 };
 
-export default React.forwardRef((props, ref) => <FileInput inputFieldRef={ref} props={{ ...props }} />);
+export default FileInput;
